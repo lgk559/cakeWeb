@@ -12,19 +12,18 @@
                                     分類 <span v-if="visibility !== 'all'">：{{ visibility }}</span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <li class="dropdown-item" @click="visibility = 'all'">
+                                    <li class="dropdown-item" @click="filter_product_in_category(item)">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="all" v-model="visibility">
                                             <label class="form-check-label" for="'flexRadioDefault'">全部</label>
                                         </div>
                                     </li>
                                     <li v-for="(item, index) in category" class="dropdown-item"
-                                        @click="visibility = item">
+                                        @click="filter_product_in_category(item)">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                :id="'flexRadioDefault' + index">
-                                            <label class="form-check-label" :for="'flexRadioDefault' + index">{{ item
-                                                }}</label>
+                                                :id="'flexRadioDefault' + index"  :value='item' v-model="visibility">
+                                            <label class="form-check-label" :for="'flexRadioDefault' + index">{{ item }}</label>
                                         </div>
                                     </li>
                                 </ul>
@@ -42,13 +41,13 @@
                     </div>
                     <div class="col-auto m-md-0 m-auto">
                         <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="Keywords">
+                            <button class="btn btn-outline-success" type="submit" @click.prevent="filter_product_in_Keywords">Search</button>
                         </form>
                     </div>
                 </div>
                 <div class="row align-items-stretch m-md-2 m-0">
-                    <template v-if="products_all.length > 0">
+                    <template v-if="product_in_page.length > 0">
                         <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-4  p-1" v-for="item in product_in_page"
                             :key="item.id">
                             <div class="card border-1 shadow-sm height-100 ">
@@ -99,7 +98,7 @@
                     </template>
                     <template v-else>
                         <div>
-                            沒資料
+                            沒有符合的產品
                         </div>
                     </template>
                     <Pagination />
@@ -124,20 +123,21 @@ let status = ref({
     productChangeToCart: '',
 });
 const products_all = ref([]); // 篩選所有已啟用的商品
-const product_in_category = ref([]); // 再將products_all進行篩選出符合"visibility"的商品
-const product_in_page = ref({}); // 將product_in_category進行分頁，只印出此頁的商品
+const product_in_filter = ref([]); // 將products_all進行篩選出符合"visibility || Keywords"的商品
+const product_in_page = ref({}); // 將product_in_filter進行分頁，只印出此頁的商品
 const category = ref({}); // 商品類別(底下沒商品的類別會先過濾)
 const carts = ref([]);
 
 
 let inPageNum = ref(8); // 一頁會有幾項商品
 let visibility = ref('all');
-
+let Keywords = ref('');
 
 function initProducts(data){
     products_all.value = filter_products_is_enabled(data)
     category.value = filter_category_is_enabled(products_all.value)
     filter_product_in_category(); // 篩選符合類別的商品，例所有類別為"蛋糕"的商品
+    isLoading.value = false;
 }
 
 function filter_products_is_enabled(data) {
@@ -152,20 +152,33 @@ function filter_category_is_enabled(all){
     return mySet;
 }
 
-function filter_product_in_category() {
+function filter_product_in_category(filterValue = 'all') {
     let nowarr = [];
+    visibility.value = filterValue;
     if (visibility.value == 'all') { nowarr = products_all.value }
     else {
         products_all.value.forEach((item) => {
             if(item.category == visibility.value){ nowarr.push(item)}
         });
     }
-    product_in_category.value = nowarr;
+    product_in_filter.value = nowarr;
     changePage(1); // 印出此頁的商品
 }
 
+function filter_product_in_Keywords() {
+    let nowarr = [];
+    products_all.value.forEach((item) => {
+        let is_has = item.title.search(Keywords.value);
+        if(is_has != -1){nowarr.push(item)}
+    });
+    product_in_filter.value = nowarr;
+    changePage(1); // 印出此頁的商品
+    Keywords.value = "";
+    visibility.value = ""
+}
+
 function changePage( chang = 1){
-    let total_pages = Math.ceil(product_in_category.value.length / inPageNum.value);
+    let total_pages = Math.ceil(product_in_filter.value.length / inPageNum.value);
     let pagination = {
         "total_pages":  total_pages,
         "current_page": chang,
@@ -174,21 +187,21 @@ function changePage( chang = 1){
         "category": null
     }
     emitter.emit('pagination:init', pagination);
-    product_in_page.value = product_in_category.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value);
+    product_in_page.value = product_in_filter.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value);
 }
 
 function getProductsAll() {
+    isLoading.value = true;
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/products/all`;
     axios.get(api).then((response) => {
         if (response.data.success) {
-            isLoading.value = false;
             let data = response.data.products;
             initProducts(data);
         }
     })
 }
 
-watch(visibility, filter_product_in_category)
+// watch(visibility, filter_product_in_category)
 
 function addtoCart(id, qty = 1) {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
