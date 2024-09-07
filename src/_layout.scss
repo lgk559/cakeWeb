@@ -1,0 +1,67 @@
+
+// 內文超過省略…
+@mixin omit($value) {
+  overflow:hidden;
+  text-overflow:clip;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;  
+  -webkit-line-clamp: $value;  
+}
+.omit-1 {
+  @include omit(1)
+}
+.omit-2 {
+  @include omit(2) 
+}
+
+// 高度100
+.height-100{
+  height: 100%;
+}
+
+// hover放大
+@mixin hoverScale($scale,$height:200px) {
+  overflow: hidden;
+  height: $height;
+  .hoverScale-img {
+    width: 100%;
+    height: 100%;
+  }
+  &:hover .hoverScale-img{
+    transform: scale($scale);
+    transition: transform 0.5s;
+  }
+}
+.hoverScale {
+  @include hoverScale(1.1)
+}
+
+
+// 購物車
+#cart {
+  right: 5%;
+  top: 60%;
+  transform: translateY(-50%);
+  i{
+    font-size: 1.5rem;
+  }
+}
+.cartNum {
+  width: 3.5rem;
+}
+
+footer {
+  background-color: #efefef;
+  padding: 2.5% 1% 1.5%;
+  text-align: center;
+  line-height: 1.4;
+  font-size: 13.3px;
+}
+
+.SearchBox {
+  top: 56px;
+  padding: 0.5rem 0;
+  background-color: #fff;
+}
+
+

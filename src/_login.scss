@@ -1,0 +1,97 @@
+$destopSize: 1280px;
+$ipadSize: 1200px;
+$mobileSize: 640px;
+
+@import 'font';
+
+body,
+html {
+    margin: 0;
+}
+
+body {
+    font-size: 16px;
+}
+
+#app {
+    position: relative;
+
+    .t-center {
+        text-align: center;
+    }
+    .p-center {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .loginBox {
+        position: fixed;
+        width: 100%;
+        top: 0%;
+        left: 0%;
+        bottom: 0;
+        z-index: 999;
+        background: #0000004d;
+        .login {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 75%;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 2rem;
+            border: 1px solid #ccc;
+        }
+        .item_account,
+        .item_password {
+            position: relative;
+            margin: 5% auto;
+            width: 100%;
+            max-width: calc(200px + 10%);
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #account,
+        #password {
+
+            width: 100%;
+            display: block;
+            padding: 0.5rem 0.5rem 0.5rem 3rem;
+
+            &.failure {
+                border: 1px solid red;
+            }
+        }
+    }
+
+    .failureInfo {
+        color: red;
+        flex: 100%;
+        text-align: left;
+    }
+
+    .input_title {
+        position: absolute;
+        left: 3%;
+        top: 0.3rem;
+    }
+
+    .eye {
+        position: absolute;
+        left: 90%;
+        top: 1.2rem;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+
+        @media (max-width: $ipadSize) {}
+    }
+}
+
+.close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}

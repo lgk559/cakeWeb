@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+@import "_reset.scss";
+
+@import "bootstrap/scss/_functions.scss";
+@import "bootstrap/scss/_variables.scss";
+@import "bootstrap/scss/_mixins.scss";
+@import "_custom_bootstrap.scss";
+@import "bootstrap/scss/bootstrap";
+
+// @import "bootstrap/scss/bootstrap";
+@import "_login.scss";
+@import "_layout.scss";
+@import "_Dashboard.scss";
+@import "_products.scss"
