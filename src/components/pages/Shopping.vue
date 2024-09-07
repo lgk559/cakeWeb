@@ -48,8 +48,8 @@
                     </div>
                 </div>
                 <div class="row align-items-stretch m-md-2 m-0">
-                    <template v-if="filter_products.length > 0">
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-4  p-1" v-for="item in products_inPage"
+                    <template v-if="products_all.length > 0">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-4  p-1" v-for="item in product_in_page"
                             :key="item.id">
                             <div class="card border-1 shadow-sm height-100 ">
                                 <div class="rounded-top hoverScale" style="height: 150px;">
@@ -118,55 +118,54 @@ window.$ = $;
 import { Modal } from "bootstrap";
 import Pagination from '*/components/pages/shared/Pagination.vue';
 
-let isLoading = ref(false)
+let isLoading = ref(false);
 let status = ref({
     productLoading: '',
     productChangeToCart: '',
-})
+});
 const products_all = ref([]); // 篩選所有已啟用的商品
-const products = ref([]) // 再將products_all進行篩選出符合"visibility"的商品
-const products_inPage = ref({}) // 將products進行分頁，只印出此頁的商品
-const category = ref({}) // 商品類別(底下沒商品的類別會先過濾)
-const carts = ref([])
+const product_in_category = ref([]); // 再將products_all進行篩選出符合"visibility"的商品
+const product_in_page = ref({}); // 將product_in_category進行分頁，只印出此頁的商品
+const category = ref({}); // 商品類別(底下沒商品的類別會先過濾)
+const carts = ref([]);
 
 
 let inPageNum = ref(8); // 一頁會有幾項商品
-let visibility = ref('all')
+let visibility = ref('all');
 
 
 function initProducts(data){
-    products_all.value = filter_products(data)
-    category.value = product_category(products_all.value)
-    filter_category_products(); 
+    products_all.value = filter_products_is_enabled(data)
+    category.value = filter_category_is_enabled(products_all.value)
+    filter_product_in_category(); // 篩選符合類別的商品，例所有類別為"蛋糕"的商品
 }
 
-function filter_products(data) {
+function filter_products_is_enabled(data) {
     return data.filter((t) => t.is_enabled)
 }
 
-function product_category(all){
+function filter_category_is_enabled(all){
     var mySet = new Set();
     all.forEach((item) => {
-        mySet.add(item.category)
+        mySet.add(item.category);
     })
-    return mySet
+    return mySet;
 }
 
-function filter_category_products() {
-    // 篩選符合類別的商品，例所有類別為"蛋糕"的商品
-    let nowarr = []
+function filter_product_in_category() {
+    let nowarr = [];
     if (visibility.value == 'all') { nowarr = products_all.value }
     else {
         products_all.value.forEach((item) => {
             if(item.category == visibility.value){ nowarr.push(item)}
-        })
+        });
     }
-    products.value = nowarr
-    changePage(1)
+    product_in_category.value = nowarr;
+    changePage(1); // 印出此頁的商品
 }
 
 function changePage( chang = 1){
-    let total_pages = Math.ceil(products.value.length / inPageNum.value)
+    let total_pages = Math.ceil(product_in_category.value.length / inPageNum.value);
     let pagination = {
         "total_pages":  total_pages,
         "current_page": chang,
@@ -175,7 +174,7 @@ function changePage( chang = 1){
         "category": null
     }
     emitter.emit('pagination:init', pagination);
-    products_inPage.value = products.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value)
+    product_in_page.value = product_in_category.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value);
 }
 
 function getProductsAll() {
@@ -183,13 +182,13 @@ function getProductsAll() {
     axios.get(api).then((response) => {
         if (response.data.success) {
             isLoading.value = false;
-            let data = response.data.products
-            initProducts(data)
+            let data = response.data.products;
+            initProducts(data);
         }
     })
 }
 
-watch(visibility, filter_category_products)
+watch(visibility, filter_product_in_category)
 
 function addtoCart(id, qty = 1) {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
@@ -200,7 +199,7 @@ function addtoCart(id, qty = 1) {
         if (response.data.success) {
             status.value.productChangeToCart = '';
             // thisModalObj_product.hide();
-            getCart()
+            getCart();
         }
     })
 }
@@ -215,8 +214,8 @@ function getCart() {
     })
 }
 onBeforeMount(() => {
-    getProductsAll()
-    getCart()
+    getProductsAll();
+    getCart();
     emitter.on('pagination:chage', (page) => {
         changePage(page); // page的值是要前往的頁數，它的值會是數字，例如1
     });
