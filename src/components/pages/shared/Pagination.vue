@@ -10,8 +10,8 @@
             <li class="page-item" v-for="page in paginationValue.total_pages" :class="{'active': paginationValue.current_page === page}">
                 <a class="page-link" href="#" @click.prevent="getPagination((page))">{{ page }}</a>
             </li>
-            <li class="page-item" :class="{'disabled': !paginationValue.has_next}" @click.prevent="getPagination((paginationValue.current_page+1))">
-                <a class="page-link" href="#" aria-label="Next">
+            <li class="page-item" :class="{'disabled': !paginationValue.has_next}">
+                <a class="page-link" href="#" aria-label="Next" @click.prevent="getPagination((paginationValue.current_page+1))">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -26,7 +26,6 @@ import emitter from '*/EventBus';
 let paginationValue = ref(null)
 
 function getPagination(page) {
-    console.log(page)
     emitter.emit('pagination:chage',page);
 }
 

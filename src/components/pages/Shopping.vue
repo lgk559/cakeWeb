@@ -49,7 +49,7 @@
                 </div>
                 <div class="row align-items-stretch m-md-2 m-0">
                     <template v-if="filter_products.length > 0">
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-4  p-1" v-for="item in products"
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-4  p-1" v-for="item in products_inPage"
                             :key="item.id">
                             <div class="card border-1 shadow-sm height-100 ">
                                 <div class="rounded-top hoverScale" style="height: 150px;">
@@ -123,31 +123,25 @@ let status = ref({
     productLoading: '',
     productChangeToCart: '',
 })
-const products_all = ref([])
-const products = ref([])
-const product = ref({})
-const category = ref({}) //商品類別(底下沒商品的類別會先過濾)
+const products_all = ref([]); // 篩選所有已啟用的商品
+const products = ref([]) // 再將products_all進行篩選出符合"visibility"的商品
+const products_inPage = ref({}) // 將products進行分頁，只印出此頁的商品
+const category = ref({}) // 商品類別(底下沒商品的類別會先過濾)
 const carts = ref([])
 
 
-
-const pagination = ref({})
-let page = ref(1)
-let inPageNum = ref(8)
-
+let inPageNum = ref(8); // 一頁會有幾項商品
 let visibility = ref('all')
 
 
-function initProducts(products){
-    filter_products(products)
-    // 篩選所有已啟用的商品類別
+function initProducts(data){
+    products_all.value = filter_products(data)
     category.value = product_category(products_all.value)
-    // 篩選符合的商品類別
-    filter_category_products()
+    filter_category_products(); 
 }
 
-function filter_products(products) {
-    products_all.value = products.filter((t) => t.is_enabled)
+function filter_products(data) {
+    return data.filter((t) => t.is_enabled)
 }
 
 function product_category(all){
@@ -159,7 +153,7 @@ function product_category(all){
 }
 
 function filter_category_products() {
-    // 篩選符合的商品類別
+    // 篩選符合類別的商品，例所有類別為"蛋糕"的商品
     let nowarr = []
     if (visibility.value == 'all') { nowarr = products_all.value }
     else {
@@ -167,63 +161,42 @@ function filter_category_products() {
             if(item.category == visibility.value){ nowarr.push(item)}
         })
     }
-    
-    changePage()
-    return products_all.value = nowarr
+    products.value = nowarr
+    changePage(1)
 }
 
-function changePage(chang = page.value){
-    page.value = chang
-    pagination.value = {
-        "total_pages":  Math.ceil(products_all.value.length / inPageNum.value),
-        "current_page": page.value,
-        "has_pre": page.value >= Math.ceil(products_all.value.length / inPageNum.value)  ? true:false ,
-        "has_next": page.value < Math.ceil(products_all.value.length / inPageNum.value)  ? true:false ,
+function changePage( chang = 1){
+    let total_pages = Math.ceil(products.value.length / inPageNum.value)
+    let pagination = {
+        "total_pages":  total_pages,
+        "current_page": chang,
+        "has_pre": chang !== 1  ? true:false ,
+        "has_next": chang !== total_pages ? true:false ,
         "category": null
     }
-    emitter.emit('pagination:init', pagination.value);
-    // emitter.emit('pagination:chage', pagination.value);
-    products.value = products_all.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value)
+    emitter.emit('pagination:init', pagination);
+    products_inPage.value = products.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value)
 }
-
 
 function getProductsAll() {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/products/all`;
     axios.get(api).then((response) => {
         if (response.data.success) {
-            
             isLoading.value = false;
-            let products = response.data.products
-
-            initProducts(products)
-            
+            let data = response.data.products
+            initProducts(data)
         }
     })
 }
-// function getProducts(page = 1) {
-    
-// }
 
-// watch(visibility, filterData)
+watch(visibility, filter_category_products)
 
-// function getProduct(id) {
-//     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/product/${id}`;
-//     status.value.productLoading = id;
-//     axios.get(api).then((response) => {
-//         // console.log(response.data)
-//         if (response.data.success) {
-//             product.value = response.data.product
-//             thisModalObj_product.show();
-//             status.value.productLoading = '';
-//         }
-//     })
-// }
 function addtoCart(id, qty = 1) {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
     status.value.productChangeToCart = id;
-    console.log(id, qty)
+    // console.log(id, qty)
     axios.post(api, { data: { "product_id": id, "qty": qty } }).then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         if (response.data.success) {
             status.value.productChangeToCart = '';
             // thisModalObj_product.hide();
@@ -242,15 +215,10 @@ function getCart() {
     })
 }
 onBeforeMount(() => {
-    // getProducts()
     getProductsAll()
-    // filterData()
     getCart()
     emitter.on('pagination:chage', (page) => {
-        // page的值是要前往的頁數
-        console.log(page)
-        changePage(page)
-        // page.value = 2
+        changePage(page); // page的值是要前往的頁數，它的值會是數字，例如1
     });
 })
 
