@@ -9,12 +9,12 @@
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    分類 <span v-if="visibility !== 'all'">：{{ visibility }}</span>
+                                    分類 <span v-if="categoryItem !== 'all'">：{{ categoryItem }}</span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <li class="dropdown-item" @click="filter_product_in_category(item)">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="all" v-model="visibility">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="all" v-model="categoryItem">
                                             <label class="form-check-label" for="'flexRadioDefault'">全部</label>
                                         </div>
                                     </li>
@@ -22,7 +22,7 @@
                                         @click="filter_product_in_category(item)">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                :id="'flexRadioDefault' + index"  :value='item' v-model="visibility">
+                                                :id="'flexRadioDefault' + index"  :value='item' v-model="categoryItem">
                                             <label class="form-check-label" :for="'flexRadioDefault' + index">{{ item }}</label>
                                         </div>
                                     </li>
@@ -123,20 +123,20 @@ let status = ref({
     productChangeToCart: '',
 });
 const products_all = ref([]); // 篩選所有已啟用的商品
-const product_in_filter = ref([]); // 將products_all進行篩選出符合"visibility || Keywords"的商品
+const product_in_filter = ref([]); // 將products_all進行篩選出符合"categoryItem || Keywords"的商品
 const product_in_page = ref({}); // 將product_in_filter進行分頁，只印出此頁的商品
 const category = ref({}); // 商品類別(底下沒商品的類別會先過濾)
 const carts = ref([]);
 
 
 let inPageNum = ref(8); // 一頁會有幾項商品
-let visibility = ref('all');
-let Keywords = ref('');
+let categoryItem = ref('all'); // 使用者選擇的類別，預設是all
+let Keywords = ref(''); //使用者輸入關鍵字
 
 function initProducts(data){
     products_all.value = filter_products_is_enabled(data)
     category.value = filter_category_is_enabled(products_all.value)
-    filter_product_in_category(); // 篩選符合類別的商品，例所有類別為"蛋糕"的商品
+    filter_product_in_category(); // 篩選符合類別的商品，例如所有類別為"蛋糕"的商品
     isLoading.value = false;
 }
 
@@ -154,11 +154,11 @@ function filter_category_is_enabled(all){
 
 function filter_product_in_category(filterValue = 'all') {
     let nowarr = [];
-    visibility.value = filterValue;
-    if (visibility.value == 'all') { nowarr = products_all.value }
+    categoryItem.value = filterValue;
+    if (categoryItem.value == 'all') { nowarr = products_all.value }
     else {
         products_all.value.forEach((item) => {
-            if(item.category == visibility.value){ nowarr.push(item)}
+            if(item.category == categoryItem.value){ nowarr.push(item)}
         });
     }
     product_in_filter.value = nowarr;
@@ -174,7 +174,7 @@ function filter_product_in_Keywords() {
     product_in_filter.value = nowarr;
     changePage(1); // 印出此頁的商品
     Keywords.value = "";
-    visibility.value = ""
+    categoryItem.value = ""
 }
 
 function changePage( chang = 1){
@@ -200,8 +200,6 @@ function getProductsAll() {
         }
     })
 }
-
-// watch(visibility, filter_product_in_category)
 
 function addtoCart(id, qty = 1) {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
