@@ -18,7 +18,7 @@
                                             <label class="form-check-label" for="'flexRadioDefault'">全部</label>
                                         </div>
                                     </li>
-                                    <li v-for="(item, index) in product_category" class="dropdown-item"
+                                    <li v-for="(item, index) in category" class="dropdown-item"
                                         @click="visibility = item">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="flexRadioDefault"
@@ -126,6 +126,7 @@ let status = ref({
 const products_all = ref([])
 const products = ref([])
 const product = ref({})
+const category = ref({}) //商品類別(底下沒商品的類別會先過濾)
 const carts = ref([])
 
 
@@ -135,47 +136,54 @@ let page = ref(1)
 let inPageNum = ref(8)
 
 let visibility = ref('all')
-let filter_products = computed(() => {
-    // 篩選已啟用的商品
-    return products_all.value.filter((t) => t.is_enabled)
-})
-function initProducts(){
+
+
+function initProducts(products){
+    filter_products(products)
     // 篩選所有已啟用的商品類別
+    category.value = product_category(products_all.value)
+    // 篩選符合的商品類別
+    filter_category_products()
 }
-const product_category = computed(() => {
-    // 商品類別
+
+function filter_products(products) {
+    products_all.value = products.filter((t) => t.is_enabled)
+}
+
+function product_category(all){
     var mySet = new Set();
-    filter_products.value.forEach((item) => {
+    all.forEach((item) => {
         mySet.add(item.category)
     })
     return mySet
-})
+}
+
 function filter_category_products() {
     // 篩選符合的商品類別
     let nowarr = []
-    if (visibility.value == 'all') { nowarr = filter_products.value }
+    if (visibility.value == 'all') { nowarr = products_all.value }
     else {
-        filter_products.value.forEach((item) => {
+        products_all.value.forEach((item) => {
             if(item.category == visibility.value){ nowarr.push(item)}
         })
     }
-    pagination.value = {
-        "total_pages":  Math.ceil(nowarr.length / inPageNum.value),
-        "current_page": page.value,
-        "has_pre": page.value >= Math.ceil(nowarr.length / inPageNum.value)  ? true:false ,
-        "has_next": page.value < Math.ceil(nowarr.length / inPageNum.value)  ? true:false ,
-        "category": null
-    }
+    
     changePage()
-    return nowarr
+    return products_all.value = nowarr
 }
 
-function changePage(page=1){
-    
-    console.log(page)
+function changePage(chang = page.value){
+    page.value = chang
+    pagination.value = {
+        "total_pages":  Math.ceil(products_all.value.length / inPageNum.value),
+        "current_page": page.value,
+        "has_pre": page.value >= Math.ceil(products_all.value.length / inPageNum.value)  ? true:false ,
+        "has_next": page.value < Math.ceil(products_all.value.length / inPageNum.value)  ? true:false ,
+        "category": null
+    }
     emitter.emit('pagination:init', pagination.value);
     // emitter.emit('pagination:chage', pagination.value);
-    products.value = nowarr.slice((page - 1)*inPageNum.value, page*inPageNum.value)
+    products.value = products_all.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value)
 }
 
 
@@ -183,9 +191,12 @@ function getProductsAll() {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/products/all`;
     axios.get(api).then((response) => {
         if (response.data.success) {
+            
             isLoading.value = false;
-            products_all.value = response.data.products
-            filter_category_products()
+            let products = response.data.products
+
+            initProducts(products)
+            
         }
     })
 }
