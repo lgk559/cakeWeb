@@ -7,14 +7,14 @@
                     <div class="col-auto">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle"
+                                <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" :class="{'btn-primary':isReverse_type =='','btn-outline-primary':isReverse_type !=''}"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    分類 <span v-if="categoryItem !== 'all'">：{{ categoryItem }}</span>
+                                    分類 <span>：{{ categoryItem }}</span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <li class="dropdown-item" @click="filter_product_in_category(item)">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="all" v-model="categoryItem">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="全部" v-model="categoryItem">
                                             <label class="form-check-label" for="'flexRadioDefault'">全部</label>
                                         </div>
                                     </li>
@@ -28,14 +28,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn" @click="changeReverse('price')"  :class="{'btn-primary':isReverse_type =='price','btn-outline-primary':isReverse_type !='price'}">
                                 價格
-                                <i class="fa-solid fa-arrow-down-wide-short"></i>
-                                <!-- <i class="fa-solid fa-arrow-down-short-wide"></i> -->
-                            </button>
-                            <button type="button" class="btn btn-outline-primary">
-                                價格
-                                <i class="fa-solid fa-arrow-down-short-wide"></i>
+                                <i class="fa-solid fa-arrow-down-wide-short" :class= "{'fa-arrow-down-wide-short' : !isReverse.price, 'fa-arrow-down-short-wide' : isReverse.price}"></i>
                             </button>
                         </div>
                     </div>
@@ -109,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeMount, watch, computed } from 'vue'
+import { ref,reactive, onMounted, onBeforeMount, watch, computed } from 'vue'
 import axios from 'axios'
 import emitter from '*/EventBus.js'
 import $ from "jquery";
@@ -129,37 +124,48 @@ const category = ref({}); // 商品類別(底下沒商品的類別會先過濾)
 const carts = ref([]);
 
 
-let inPageNum = ref(8); // 一頁會有幾項商品
-let categoryItem = ref('all'); // 使用者選擇的類別，預設是all
+let inPageNum = ref(8); // 一頁會有幾項商品，目前設定一頁最多8項
+let categoryItem = ref('全部'); // 使用者選擇的類別，預設是all
 let Keywords = ref(''); //使用者輸入關鍵字
+let isReverse_type = ref('');
+let isReverse = ref({
+    price: false, // false為由大到小；true為由小到大
+    date: false 
+})
 
 function initProducts(data){
-    products_all.value = filter_products_is_enabled(data)
-    category.value = filter_category_is_enabled(products_all.value)
+    filter_products_is_enabled(data)
+    category.value = filter_category_is_enabled()
     filter_product_in_category(); // 篩選符合類別的商品，例如所有類別為"蛋糕"的商品
     isLoading.value = false;
 }
 
 function filter_products_is_enabled(data) {
-    return data.filter((t) => t.is_enabled)
+    data.filter((t) => {
+        if(t.is_enabled){products_all.value.push(t)}
+
+    })
 }
 
-function filter_category_is_enabled(all){
+function filter_category_is_enabled(){
     var mySet = new Set();
-    all.forEach((item) => {
+    products_all.value.forEach((item) => {
         mySet.add(item.category);
     })
     return mySet;
 }
 
-function filter_product_in_category(filterValue = 'all') {
+function filter_product_in_category(filterValue = '全部') {
     let nowarr = [];
     categoryItem.value = filterValue;
-    if (categoryItem.value == 'all') { nowarr = products_all.value }
-    else {
+    if(filterValue =='全部'){
+        nowarr = Object.assign([], products_all.value);
+    }
+    else { 
         products_all.value.forEach((item) => {
             if(item.category == categoryItem.value){ nowarr.push(item)}
         });
+        isReverse_type.value = '';
     }
     product_in_filter.value = nowarr;
     changePage(1); // 印出此頁的商品
@@ -167,11 +173,12 @@ function filter_product_in_category(filterValue = 'all') {
 
 function filter_product_in_Keywords() {
     let nowarr = [];
-    products_all.value.forEach((item) => {
+    isReverse_type.value = '';
+    products_all.forEach((item) => {
         let is_has = item.title.search(Keywords.value);
         if(is_has != -1){nowarr.push(item)}
     });
-    product_in_filter.value = nowarr;
+    product_in_filter.value = Object.assign([], nowarr);
     changePage(1); // 印出此頁的商品
     Keywords.value = "";
     categoryItem.value = ""
@@ -188,6 +195,24 @@ function changePage( chang = 1){
     }
     emitter.emit('pagination:init', pagination);
     product_in_page.value = product_in_filter.value.slice((chang - 1)*inPageNum.value, chang*inPageNum.value);
+}
+
+function changeReverse(type) {
+    isReverse_type.value = type
+    isReverse.value[type] = !isReverse.value[type]
+    if(type == ''){
+        // console.log('不用排序')
+    }
+    else{
+        product_in_filter.value.sort(function (a, b) {
+            var a = a[type], b = b[type];
+            // 如果是空值，一律排序在最後
+            if (a === null) {return 1;}
+            if (b === null) {return -1;}
+            return (a === b ? 0 : a > b  ? 1 : -1) * (isReverse.value.price ? (1) : -1);
+        })
+        changePage(1);
+    }
 }
 
 function getProductsAll() {
