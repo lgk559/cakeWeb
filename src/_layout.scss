@@ -39,15 +39,20 @@
 
 // 購物車
 #cart {
+  position: fixed;
   right: 5%;
-  top: 60%;
-  transform: translateY(-50%);
+  top: 1.2rem;
+  z-index: 1021;
   i{
     font-size: 1.5rem;
   }
 }
+
 .cartNum {
   width: 3.5rem;
+}
+.modal-backdrop {
+  // z-index: 1;
 }
 
 footer {
@@ -65,3 +70,199 @@ footer {
 }
 
 
+// brand 品牌
+.timelineBox {
+  background-color: #efefef;
+  display: flex;
+  justify-content: center;
+  align-content: stretch; 
+  padding: 100px 0;
+  @media (max-width: $mobileSize) {
+    justify-content: flex-start;
+    padding-left: 1rem;
+  }
+  ul,li {
+    padding: 0;
+  }
+  ul {
+    list-style: none;
+  }
+  * {
+    box-sizing: border-box;
+  }
+}
+.timeline {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  &::before {
+    @media (max-width: $ipadSize) {
+      content: "";
+      width: 0px;
+      height: 100%;
+      border: 1px dashed #ffcc00;
+      position: absolute;
+      top: 0;
+      right: 50%;
+      display: block;
+      z-index: 1;
+    }
+  }
+  .dialog_wrapper {
+    position: relative;
+    flex: 0 0 50%;
+    height: auto;
+    margin: 1rem 0;
+    z-index: 1;
+    cursor: default;
+    @media (max-width: $ipadSize) {
+      flex: 0 0 100%;
+    }
+    &:nth-of-type(2n+1){
+      right: 2rem;
+      @media (max-width: $ipadSize) {
+        right: 0;
+      }
+      &::after {
+        content: "";
+        top: 25%;
+        right: -0.8rem;
+        // filter: drop-shadow(2px 13px 0px rgba(0,0,0,0.5));
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 1rem 0 1rem 1.5rem;
+        border-color: transparent transparent transparent #e9e995;
+      }
+      &::before {
+        content: "";
+        top: 30%;
+        right: -2.5rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background-color: #e9e995;
+        
+      }
+    }
+    &:nth-of-type(even){
+      left: 2rem;
+      z-index: 1;
+      transform: translateY(50%);
+      @media (max-width: $ipadSize) {
+        left: 0rem;
+        transform: translateY(0%);
+      }
+      &::after {
+        top: 25%;
+        left: -0.8rem;
+        box-shadow: unset;
+        z-index: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 1rem 1.5rem 1rem 0;
+        border-color: transparent #e9e995 transparent transparent;
+      }
+      &::before {
+        content: "";
+        top: 30%;
+        left: -2.5rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background-color: #e9e995;
+      }
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0.8rem;
+      @media (max-width: $ipadSize) {
+        display: none;
+      }
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.8rem;
+      @media (max-width: $ipadSize) {
+        display: none;
+      }
+    }
+    .dialog {
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      padding: 1% 3%;
+      border-radius: 5px;
+      display: flex;
+      justify-content: left;
+      align-items: center;
+    }
+    &:nth-child(odd) .dialog::after {
+      content: "";
+      width: 0px;
+      height: 100%;
+      border: 1px dashed #ffcc00;
+      position: absolute;
+      top: 0;
+      right: -2.1rem;
+      z-index: 1;
+      @media (max-width: $ipadSize) {
+        display: none;
+      }
+    }
+    &:nth-child(even) .dialog::after {
+      content: "";
+      width: 0px;
+      height: 100%;
+      border: 1px dashed #ffcc00;
+      position: absolute;
+      top: 0;
+      left: -2rem;
+      z-index: 1;
+      @media (max-width: $ipadSize) {
+        display: none;
+      }
+    }
+    .infoBox {
+      background-color: #e9e995;
+      flex-grow: 1;
+      padding: 1rem;
+    }
+    .imgBOx {
+      max-width: 8rem;
+      max-height: 8rem;
+      width: 20vw;
+      height: 20vw;
+      margin-right: 1rem;
+      img {width: 100%;}
+    }
+    &:nth-of-type(2n+1) .infoBox{
+      // box-shadow: 10px 20px rgba(0,0,0,0.5);
+      filter: drop-shadow(-8px 13px 1px rgba(0,0,0,0.5));
+    }
+    &:nth-of-type(2n)  .infoBox{
+      // box-shadow: 10px 20px rgba(0,0,0,0.5);
+      filter: drop-shadow(8px 13px 1px rgba(0,0,0,0.5));
+      left: -0.3rem;
+    }
+    &:nth-of-type(2n) .infoBox{
+      order: 1;
+    }
+    &:nth-of-type(2n) .imgBOx{
+      order: 2;
+      margin-right: unset;
+      margin-left: 1rem;
+    }
+  }
+  
+}
