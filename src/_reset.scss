@@ -28,6 +28,13 @@ summary, time, mark, audio, video {
 body,html {
     margin: 0;
 }
+#app ul,#app li {
+  padding: 0;
+  list-style: none;
+}
+* {
+  box-sizing: border-box;
+}
 
 img {max-width: 100%;display: block;}
 a {
@@ -175,8 +182,6 @@ section {
     }
   }
 
-
-  
 
 .loader-circle {
   font-size: 10px;

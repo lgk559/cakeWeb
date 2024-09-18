@@ -1,3 +1,22 @@
+/*--------------------------------------------------------------
+/** 1. VARIABLES
+--------------------------------------------------------------*/
+  $--bs-gray-0: #ffffff;
+  $--bs-gray-100: #f3f3f3;
+  $--bs-gray-200: #efefef;
+  $timeline-main: #e9e995; 
+  $timeline-line: #ffcc00; 
+  $timeline-shadow: #000; 
+  $timeline-opacity: 0.5; 
+  // --bs-primary: #787d62;
+  // --bs-secondary: #F6F5F2;
+  // --bs-primary-rgb: 120, 125, 98;
+  // --bs-body-bg-rgb: 246, 245, 242;
+  // --bs-light: #fff;
+  // --bs-dark: #000;
+  // --navbar-color-color: #131814;
+  // --swiper-theme-color: #fff !important;
+  // --swiper-pagination-color: #000 !important;
 
 // 內文超過省略…
 @mixin omit($value) {
@@ -36,6 +55,12 @@
   @include hoverScale(1.1)
 }
 
+// 偽元素
+%pseudo {
+  position: absolute;
+  content: "";
+}
+
 
 // 購物車
 #cart {
@@ -51,12 +76,9 @@
 .cartNum {
   width: 3.5rem;
 }
-.modal-backdrop {
-  // z-index: 1;
-}
 
 footer {
-  background-color: #efefef;
+  background-color: $--bs-gray-200;
   padding: 2.5% 1% 1.5%;
   text-align: center;
   line-height: 1.4;
@@ -66,32 +88,20 @@ footer {
 .SearchBox {
   top: 56px;
   padding: 0.5rem 0;
-  background-color: #fff;
+  background-color: $--bs-gray-0;
 }
 
 
 // brand 品牌
 .timelineBox {
-  background-color: #efefef;
+  background-color: $--bs-gray-200;
   display: flex;
   justify-content: center;
   align-content: stretch; 
   padding: 100px 0;
-  @media (max-width: $mobileSize) {
-    justify-content: flex-start;
-    padding-left: 1rem;
-  }
-  ul,li {
-    padding: 0;
-  }
-  ul {
-    list-style: none;
-  }
-  * {
-    box-sizing: border-box;
-  }
 }
 .timeline {
+  // 電腦版會是兩欄排列；手機版是一欄排列
   position: relative;
   max-width: 800px;
   width: 100%;
@@ -102,13 +112,14 @@ footer {
   align-items: center;
   &::before {
     @media (max-width: $ipadSize) {
+      // 手機版的時間軸線
       content: "";
       width: 0px;
       height: 100%;
-      border: 1px dashed #ffcc00;
+      border: 1px dashed $timeline-line;
       position: absolute;
       top: 0;
-      right: 50%;
+      right: 45%;
       display: block;
       z-index: 1;
     }
@@ -123,79 +134,32 @@ footer {
     @media (max-width: $ipadSize) {
       flex: 0 0 100%;
     }
-    &:nth-of-type(2n+1){
-      right: 2rem;
-      @media (max-width: $ipadSize) {
-        right: 0;
-      }
-      &::after {
-        content: "";
-        top: 25%;
-        right: -0.8rem;
-        // filter: drop-shadow(2px 13px 0px rgba(0,0,0,0.5));
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 1rem 0 1rem 1.5rem;
-        border-color: transparent transparent transparent #e9e995;
-      }
-      &::before {
-        content: "";
-        top: 30%;
-        right: -2.5rem;
-        width: 1rem;
-        height: 1rem;
-        border-radius: 50%;
-        background-color: #e9e995;
-        
-      }
-    }
-    &:nth-of-type(even){
-      left: 2rem;
-      z-index: 1;
-      transform: translateY(50%);
-      @media (max-width: $ipadSize) {
-        left: 0rem;
-        transform: translateY(0%);
-      }
-      &::after {
-        top: 25%;
-        left: -0.8rem;
-        box-shadow: unset;
-        z-index: 0;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 1rem 1.5rem 1rem 0;
-        border-color: transparent #e9e995 transparent transparent;
-      }
-      &::before {
-        content: "";
-        top: 30%;
-        left: -2.5rem;
-        width: 1rem;
-        height: 1rem;
-        border-radius: 50%;
-        background-color: #e9e995;
-      }
-    }
     &::after {
-      content: "";
-      position: absolute;
-      top: 0.8rem;
+      // 裝飾(三角型，手機版會隱藏)
+      @extend %pseudo;
+      top: 25%;
+      width: 0;
+      height: 0;
+      border-style: solid;
       @media (max-width: $ipadSize) {
         display: none;
       }
     }
     &::before {
-      content: "";
-      position: absolute;
-      top: 0.8rem;
+      // 裝飾(時間軸線上的點，手機版會隱藏)
+      @extend %pseudo;
+      top: 30%;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: $timeline-main;
       @media (max-width: $ipadSize) {
         display: none;
       }
     }
+
     .dialog {
+      // 內容容器(裝圖片和文字)
       position: relative;
       top: 0;
       left: 0;
@@ -206,39 +170,29 @@ footer {
       display: flex;
       justify-content: left;
       align-items: center;
-    }
-    &:nth-child(odd) .dialog::after {
-      content: "";
-      width: 0px;
-      height: 100%;
-      border: 1px dashed #ffcc00;
-      position: absolute;
-      top: 0;
-      right: -2.1rem;
-      z-index: 1;
-      @media (max-width: $ipadSize) {
-        display: none;
+      &::after{
+        // pc版的時間軸線
+        @extend %pseudo;
+        top: 0;
+        width: 0px;
+        height: 100%;
+        border: 1px dashed $timeline-line;
+        z-index: 1;
+        @media (max-width: $ipadSize) {
+          display: none;
+        }
       }
     }
-    &:nth-child(even) .dialog::after {
-      content: "";
-      width: 0px;
-      height: 100%;
-      border: 1px dashed #ffcc00;
-      position: absolute;
-      top: 0;
-      left: -2rem;
-      z-index: 1;
-      @media (max-width: $ipadSize) {
-        display: none;
-      }
-    }
+
     .infoBox {
-      background-color: #e9e995;
+      // 文字容器
+      background-color: $timeline-main;
+      filter: drop-shadow(-8px 13px 1px rgba($timeline-shadow, $timeline-opacity));
       flex-grow: 1;
       padding: 1rem;
     }
     .imgBOx {
+      // 圖片容器
       max-width: 8rem;
       max-height: 8rem;
       width: 20vw;
@@ -246,23 +200,65 @@ footer {
       margin-right: 1rem;
       img {width: 100%;}
     }
-    &:nth-of-type(2n+1) .infoBox{
-      // box-shadow: 10px 20px rgba(0,0,0,0.5);
-      filter: drop-shadow(-8px 13px 1px rgba(0,0,0,0.5));
+
+    &:nth-of-type(2n+1) {
+      right: 2rem;
+      @media (max-width: $ipadSize) {
+        right: 0;
+      }
+      &::after {
+        right: -0.8rem;
+        border-width: 1rem 0 1rem 1.5rem;
+        border-color: transparent transparent transparent $timeline-main;
+      }
+      &::before {
+        right: -2.5rem;
+      }
+      .dialog::after {
+        right: -2.1rem;
+      }
     }
-    &:nth-of-type(2n)  .infoBox{
-      // box-shadow: 10px 20px rgba(0,0,0,0.5);
-      filter: drop-shadow(8px 13px 1px rgba(0,0,0,0.5));
-      left: -0.3rem;
-    }
-    &:nth-of-type(2n) .infoBox{
-      order: 1;
-    }
-    &:nth-of-type(2n) .imgBOx{
-      order: 2;
-      margin-right: unset;
-      margin-left: 1rem;
+
+    &:nth-of-type(2n) {
+      left: 2rem;
+      z-index: 1;
+      transform: translateY(50%);
+      @media (max-width: $ipadSize) {
+        left: 0rem;
+        transform: translateY(0%);
+      }
+      &::after {
+        left: -0.8rem;
+        z-index: 0;
+        border-width: 1rem 1.5rem 1rem 0;
+        border-color: transparent $timeline-main transparent transparent;
+      }
+      &::before {
+        left: -2.5rem;
+      }
+      .dialog::after {
+        left: -2rem;
+      }
+      .infoBox{
+        left: -0.3rem;
+        order: 1;
+        filter: drop-shadow(8px 13px 1px rgba($timeline-shadow, $timeline-opacity));
+        @media (max-width: $ipadSize) {
+          filter: drop-shadow(-8px 13px 1px rgba($timeline-shadow, $timeline-opacity));
+        }
+      }
+      .imgBOx{
+        order: 2;
+        margin-right: unset;
+        margin-left: 1rem;
+        @media (max-width: $ipadSize) {
+          margin-right: 1rem;
+          margin-left: unset;
+        }
+        @media (max-width: $ipadSize) {
+          order: 1;
+        }
+      }
     }
   }
-  
 }
