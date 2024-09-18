@@ -16,7 +16,7 @@
     <!-- Modal -->
     <div ref="modalEle_cart" class="modal fade" id="delProductModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog w-md-auto w-100 mx-md-auto mx-0" role="document">
             <div class="modal-content border-0">
                 <div class="modal-header bg-custom text-white">
                     <h5 class="modal-title" id="exampleModalLabel">
@@ -28,29 +28,35 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <td class="col">管理</td>
+                                <td class="col text-nowrap">管理</td>
                                 <td class="col">品名</td>
                                 <td class="col">數量</td>
-                                <td class="col">單價</td>
-                                <td class="col">小計</td>
+                                <td class="col d-none">單價</td>
+                                <td class="col d-none">小計</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in carts.carts">
                                 <td class="col">
-                                    <button type="button" class="btn btn-danger btn-sm me-3">
-                                        <i class="fas fa-spinner fa-spin"></i>
-                                        刪除
+                                    <button type="button" class="btn btn-danger btn-sm me-md-3 me-0">
+                                        <i v-if="status.productChangeToCart == item.product.id" class="fas fa-spinner fa-spin"></i>
+                                        <div v-else class="p">X</div>
                                     </button>
                                 </td>
-                                <td class="col">{{item.product.title}}</td>
                                 <td class="col">
+                                    <div class="p omit-1">
+                                        <router-link :to="'/page/'+item.product.id">
+                                            {{item.product.title}}
+                                        </router-link>
+                                    </div>
+                                </td>
+                                <td class="col d-flex">
                                     <button type="button" class="btn btn-primary rounded-0 rounded-start" :disabled="item.qty<=1" @click="changeQty($event,item.product.id,item.qty-1)">-</button>
-                                    <input type="txt" class="form-control rounded-0 cartNum" :value="item.qty" @change="changeQty($event,item.product.id)">
+                                    <input type="txt" class="form-control rounded-0 addCartNum text-center" :value="item.qty" @change="changeQty($event,item.product.id)">
                                     <button type="button" class="btn btn-primary rounded-0 rounded-end" @click="changeQty($event,item.product.id,item.qty+1)">+</button>
                                 </td>
-                                <td class="col">{{ item.product.price }}</td>
-                                <td class="col">{{ item.total }}</td>
+                                <td class="col d-none">{{ item.product.price }}</td>
+                                <td class="col d-none">{{ item.total }}</td>
                             </tr>
                         </tbody>
 
