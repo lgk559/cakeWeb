@@ -47,10 +47,12 @@
                             :key="item.id">
                             <div class="card border-1 shadow-sm height-100 ">
                                 <div class="rounded-top hoverScale" style="height: 150px;">
-                                    <a class="d-block hoverScale-img" href=""
+                                    <router-link class="d-block hoverScale-img" 
+                                        :to="'/page/'+item.id"
                                         style="background-size: cover; background-position: center"
                                         :style="{ 'background-image': `url(${item.imageUrl})` }">
-                                    </a>
+
+                                    </router-link>
                                 </div>
                                 <div class="card-body">
                                     <span class="badge border border-primary text-primary float-right mb-2 ">{{
@@ -75,13 +77,15 @@
                                 <div class="card-footer d-flex justify-content-center p-1">
                                     <button type="button" class="btn btn-outline-secondary btn-sm me-3"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id">
-                                        <i class="fas fa-spinner fa-spin" v-if="status.productLoading == item.id"></i>
-                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <router-link :to="'/page/'+item.id">
+                                            <i class="fas fa-spinner fa-spin" v-if="status.productLoading == item.id"></i>
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </router-link>
                                         <!-- 查看更多 -->
                                     </button>
                                     <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id"
-                                        @click=addtoCart(item.id)>
+                                        @click=getCart(item.id)>
                                         <i class="fas fa-spinner fa-spin"
                                             v-if="status.productChangeToCart == item.id"></i>
                                         <!-- 加到購物車 -->
@@ -101,6 +105,7 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script setup>
@@ -112,6 +117,7 @@ window.$ = $;
 import { Modal } from "bootstrap";
 import Pagination from '*/components/pages/shared/Pagination.vue';
 
+
 let isLoading = ref(false);
 let status = ref({
     productLoading: '',
@@ -121,7 +127,7 @@ const products_all = ref([]); // 篩選所有已啟用的商品
 const product_in_filter = ref([]); // 將products_all進行篩選出符合"categoryItem || Keywords"的商品
 const product_in_page = ref({}); // 將product_in_filter進行分頁，只印出此頁的商品
 const category = ref({}); // 商品類別(底下沒商品的類別會先過濾)
-const carts = ref([]);
+
 
 
 let inPageNum = ref(8); // 一頁會有幾項商品，目前設定一頁最多8項
@@ -143,7 +149,6 @@ function initProducts(data){
 function filter_products_is_enabled(data) {
     data.filter((t) => {
         if(t.is_enabled){products_all.value.push(t)}
-
     })
 }
 
@@ -214,7 +219,15 @@ function changeReverse(type) {
         changePage(1);
     }
 }
-
+function gotoProductPage(id) {
+    const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/product/${id}`;
+    axios.get(api).then((response) => {
+        if (response.data.success) {
+            let data = response.data.product;
+            console.log(data)
+        }
+    })
+}
 function getProductsAll() {
     isLoading.value = true;
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/products/all`;
@@ -226,33 +239,17 @@ function getProductsAll() {
     })
 }
 
-function addtoCart(id, qty = 1) {
-    const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
-    status.value.productChangeToCart = id;
-    // console.log(id, qty)
-    axios.post(api, { data: { "product_id": id, "qty": qty } }).then((response) => {
-        // console.log(response.data)
-        if (response.data.success) {
-            status.value.productChangeToCart = '';
-            // thisModalObj_product.hide();
-            getCart();
-        }
-    })
+function getCart(id,qty=1){
+    status.value.productChangeToCart = id
+    emitter.emit('cart:change',id)
 }
 
-function getCart() {
-    const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
-    axios.get(api).then((response) => {
-        // console.log(response.data)
-        if (response.data.success) {
-            carts.value = response.data.data;
-        }
-    })
-}
+
 onBeforeMount(() => {
     getProductsAll();
-    getCart();
+    
     emitter.on('pagination:chage', (page) => {
+        // 從pagination元件觸發。
         changePage(page); // page的值是要前往的頁數，它的值會是數字，例如1
     });
 })

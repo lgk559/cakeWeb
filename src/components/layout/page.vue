@@ -2,9 +2,9 @@
     <Alert />
     <Navbar>
         <li class="nav-item  mx-2">
-            <a class="nav-link text-gold" href="#" @click.prevent="goto('/shopping')">
+            <router-link class="nav-link text-gold" to="/shopping">
                 商品資訊
-            </a>
+            </router-link>
         </li>
         <!-- <li class="nav-item mx-2">
             <a class="nav-link text-gold" href="#">
@@ -12,9 +12,9 @@
             </a>
         </li> -->
         <li class="nav-item mx-2">
-            <a class="nav-link text-gold" href="#">
+            <router-link class="nav-link text-gold" to="/brand">
                 品牌介紹
-            </a>
+            </router-link>
         </li>
         <li class="nav-item mx-2">
             <a class="nav-link text-gold" href="#">
@@ -27,12 +27,13 @@
             </a>
         </li>
         <li class="nav-item mx-2">
-            <a class="nav-link text-gold"  href="#" @click.prevent="goto('/login')">
+            <router-link class="nav-link text-gold"  href="/login">
                 後台登入
-            </a>
+            </router-link>
         </li>
 
     </Navbar>
+    <Cart></Cart>
     <router-view></router-view>
     <Footer></Footer>
 </template>
@@ -43,12 +44,9 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 import axios from 'axios'
 import Navbar from '*/components/pages/shared/Navbar_customer.vue'
+import Cart from '*/components/pages/shared/cart.vue'
 import Alert from '*/components/pages/shared/AlertMessage2.vue';
 import Footer from '*/components/pages/shared/footer.vue'
-
-function goto(path){
-    router.replace({ path: path })
-}
 
 onBeforeMount(() => {
     var myCookie = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, "$1");

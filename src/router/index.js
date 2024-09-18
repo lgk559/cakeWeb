@@ -33,6 +33,16 @@ const routes = [
         path: "/shopping",
         name: "shopping",
         component: () => import("*/components/pages/Shopping.vue"),
+      },
+      {
+        path: "/page/:id",
+        name: "page",
+        component: () => import("*/components/pages/products_page.vue"),
+      },
+      {
+        path: "/brand",
+        name: "brand",
+        component: () => import("*/components/pages/brand.vue"),
       }
     ]
   },
@@ -62,11 +72,7 @@ const routes = [
     ]
   },
   
-  {
-    path: "/page/:id",
-    name: "page",
-    component: () => import("*/components/pages/page.vue")
-  },
+  
   {
     // 企業登入
     path: "/login",
