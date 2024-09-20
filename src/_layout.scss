@@ -61,6 +61,10 @@
   position: absolute;
   content: "";
 }
+// 最外層容器設定
+#app {
+  min-height: 100vh;
+}
 
 // 麵包屑
 .breadcrumb {
@@ -105,6 +109,9 @@ footer {
   text-align: center;
   line-height: 1.4;
   font-size: 13.3px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 .SearchBox {

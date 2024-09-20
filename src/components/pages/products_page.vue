@@ -1,7 +1,7 @@
 <template>
   <loading v-model:active="isLoading" />
   <div class="container position-relative">
-    <div class="row justify-content-center pt-lg-5 pt-3">
+    <div v-if="productdData" class="row justify-content-center pt-lg-5 pt-3">
       <div class="col-md-5 col-md-5 col-8">
         <img :src="productdData.imageUrl" class="img-fluid">
       </div>
@@ -28,9 +28,9 @@
             數量
           </div>
           <div scope="" class="col-12 d-flex">
-            <button type="button" class="btn btn-outline-brown rounded-0 rounded-start">+</button>
-            <input type="txt" class="form-control rounded-0 text-center border-brown" value="1">
-            <button type="button" class="btn btn-outline-brown rounded-0 rounded-end">-</button>
+            <button type="button" class="btn btn-outline-brown rounded-0 rounded-start" :disabled="addtoCartQty<=1" @click=addtoCartQty-- >-</button>
+            <input type="txt" class="form-control rounded-0 text-center border-brown" v-model="addtoCartQty">
+            <button type="button" class="btn btn-outline-brown rounded-0 rounded-end" @click=addtoCartQty++>+</button>
           </div>
         </div>
         <div class="d-flex justify-content-between">
@@ -46,64 +46,71 @@
             <button type="button" class="btn btn-danger btn-sm ml-auto w-100 p-2"
               :disabled="status.productChangeToCart || status.productLoading == productdData.id" @click=addtoCart(productdData.id)>
               <i class="fas fa-spinner fa-spin" v-if="status.productChangeToCart == productdData.id"></i>
-              <!-- 加到購物車 -->
+              <!-- 直接購買 -->
               <i class="fa-solid fa-cart-shopping"></i> 直接購買
             </button>
           </div>
         </div>
       </div>
     </div>
+    <div v-else class="row justify-content-center align-items-center text-center py-5">
+      <h1>404</h1>
+      <p>頁面不存在，5秒後自動跳轉回首頁</p>
+      
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute,useRouter } from 'vue-router'
 import axios from 'axios'
+import emitter from '*/EventBus.js'
 
 const route = useRoute()
+const router = useRouter()
 const productdData = ref({})
-const carts = ref([]);
 
 let isLoading = ref(false);
 let status = ref({
     productLoading: '',
     productChangeToCart: '',
 });
+let addtoCartQty = ref(1)
 
-function addtoCart(id, qty = 1) {
-    const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
-    status.value.productChangeToCart = id;
-    // console.log(id, qty)
-    axios.post(api, { data: { "product_id": id, "qty": qty } }).then((response) => {
-        // console.log(response.data)
-        if (response.data.success) {
-            status.value.productChangeToCart = '';
-            // thisModalObj_product.hide();
-            getCart();
-        }
-    })
+function addtoCart(id) {
+  status.value.productChangeToCart = id;
+  emitter.emit('cart:change',[id,addtoCartQty.value]);
 }
 
-function getCart() {
-    const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
-    axios.get(api).then((response) => {
-        // console.log(response.data)
-        if (response.data.success) {
-            carts.value = response.data.data;
-        }
-    })
-}
-
-onMounted((e) => {
+function initPage(){
   isLoading.value = true;
   const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/product/${route.params.id}`;
   axios.get(api).then((response) => {
     if (response.data.success) {
       productdData.value = response.data.product;
       isLoading.value = false;
+    }else{
+      // console.log('不存在的動態路由')
+      isLoading.value = false;
+      productdData.value = null;
+      setTimeout(function () { router.replace({ path: '/' }) }, 5000);
+    }
+  })
+}
+
+onMounted((e) => {
+  initPage();
+  emitter.on('cart:success',(value) => {
+    if(value){
+      status.value.productChangeToCart = '';
     }
   })
 })
+
+watch(() => route.path,(newPath, oldPath) => {
+   initPage();
+});
+
 
 </script>
