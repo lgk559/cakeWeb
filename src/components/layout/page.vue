@@ -27,7 +27,7 @@
             </a>
         </li>
         <li class="nav-item mx-2">
-            <router-link class="nav-link text-gold"  href="/login">
+            <router-link class="nav-link text-gold"  to="/login">
                 後台登入
             </router-link>
         </li>

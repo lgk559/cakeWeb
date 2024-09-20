@@ -75,14 +75,12 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-center p-1">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm me-3"
+                                    <router-link :to="'/page/'+item.id" type="button" class="btn btn-outline-secondary btn-sm me-3"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id">
-                                        <router-link :to="'/page/'+item.id">
                                             <i class="fas fa-spinner fa-spin" v-if="status.productLoading == item.id"></i>
                                             <i class="fa-solid fa-magnifying-glass"></i>
-                                        </router-link>
                                         <!-- 查看更多 -->
-                                    </button>
+                                    </router-link>
                                     <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id"
                                         @click=getCart(item.id)>
@@ -241,7 +239,7 @@ function getProductsAll() {
 
 function getCart(id,qty=1){
     status.value.productChangeToCart = id
-    emitter.emit('cart:change',id)
+    emitter.emit('cart:change',[id,qty])
 }
 
 
@@ -252,6 +250,12 @@ onBeforeMount(() => {
         // 從pagination元件觸發。
         changePage(page); // page的值是要前往的頁數，它的值會是數字，例如1
     });
+
+    emitter.on('cart:success', (value) => {
+        if(value){
+            status.value.productChangeToCart = '';
+        }
+    })
 })
 
 </script>
