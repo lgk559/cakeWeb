@@ -26,9 +26,12 @@ summary, time, mark, audio, video {
 }
 
 body,html {
+    min-height: 100vh;
+    height: 100%;
     margin: 0;
-}
-#app ul,#app li {
+  }
+
+.main ul,.main li {
   padding: 0;
   list-style: none;
 }

@@ -2,27 +2,16 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
-  // {
-  //   path: "/:pathMatch(.*)",
-  //   redirect: 'login'
-  // },
+
   {
     path: "/:pathMatch(.*)",
     redirect: 'index'
-  },
-  {
-    // 首頁
-    // path: "/",
-    // name: "home",
-    // component: () => import("*/components/layout/Dashboard.vue"),
-    // redirect:'customer_order',
   },
   {
     // 顧客頁面
     path: "/",
     name: "home",
     component: () => import("*/components/layout/page.vue"),
-    // component: () => import("*/components/pages/test.vue"),
     children: [
       {
         path: "/",
@@ -43,6 +32,33 @@ const routes = [
         path: "/brand",
         name: "brand",
         component: () => import("*/components/pages/brand.vue"),
+      },
+      {
+        path: "/check",
+        name: "check",
+        component: () => import("*/components/pages/check.vue"),
+        children: [
+          {
+            path: "cart",
+            name: "cart",
+            component: () => import("*/components/pages/check_cart.vue"),
+          },
+          {
+            path: "order",
+            name: "order",
+            component: () => import("*/components/pages/check_order.vue"),
+          },
+          {
+            path: "order_check",
+            name: "order_check",
+            component: () => import("*/components/pages/check_order_check.vue"),
+          },
+          {
+            path: "order_finish",
+            name: "order_finish",
+            component: () => import("*/components/pages/check_order_finish.vue"),
+          }
+        ]
       }
     ]
   },

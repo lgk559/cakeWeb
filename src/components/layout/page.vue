@@ -1,40 +1,42 @@
 <template>
-    <Alert />
-    <Navbar>
-        <li class="nav-item  mx-2">
-            <router-link class="nav-link text-gold" to="/shopping">
-                商品資訊
-            </router-link>
-        </li>
-        <!-- <li class="nav-item mx-2">
-            <a class="nav-link text-gold" href="#">
-                最新消息
-            </a>
-        </li> -->
-        <li class="nav-item mx-2">
-            <router-link class="nav-link text-gold" to="/brand">
-                品牌介紹
-            </router-link>
-        </li>
-        <li class="nav-item mx-2">
-            <a class="nav-link text-gold" href="#">
-                購物需知
-            </a>
-        </li>
-        <li class="nav-item mx-2">
-            <a class="nav-link text-gold" href="#">
-                門市據點
-            </a>
-        </li>
-        <li class="nav-item mx-2">
-            <router-link class="nav-link text-gold"  to="/login">
-                後台登入
-            </router-link>
-        </li>
-
-    </Navbar>
-    <Cart></Cart>
-    <router-view></router-view>
+    <div class="main">
+        <Alert />
+        <Navbar>
+            <li class="nav-item  mx-2">
+                <router-link class="nav-link text-gold" to="/shopping">
+                    商品資訊
+                </router-link>
+            </li>     
+            <li class="nav-item mx-2">
+                <router-link class="nav-link text-gold" to="/brand">
+                    品牌介紹
+                </router-link>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-gold" href="#">
+                    購物需知
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-gold" href="#">
+                    門市據點
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-gold" href="#">
+                    訂單查詢
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <router-link class="nav-link text-gold"  to="/login">
+                    後台登入
+                </router-link>
+            </li>
+    
+        </Navbar>
+        <Cart></Cart>
+        <router-view></router-view>
+    </div>
     <Footer></Footer>
 </template>
 

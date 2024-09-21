@@ -56,14 +56,14 @@
                                     <input type="txt" class="form-control rounded-0 addCartNum text-center" :value="item.qty" @change="changeCart($event,item.product.id)">
                                     <button type="button" class="btn btn-primary rounded-0 rounded-end" @click="changeCart($event,item.product.id,item.qty+1)">+</button>
                                 </td>
-                                <td class="col d-md-table-cell d-none">{{ item.product.price }}</td>
-                                <td class="col d-md-table-cell d-none">{{ item.total }}</td>
+                                <td class="col d-md-table-cell d-none">{{ $currency.currencyUSD(item.product.price) }}</td>
+                                <td class="col d-md-table-cell d-none">{{ $currency.currencyUSD(item.total) }}</td>
                             </tr>
                         </tbody>
                     </table>
                     <hr>
                     <div class="row justify-content-end pe-3">
-                        <div class="col-auto"> 總計：{{ carts.final_total }}</div>
+                        <div class="col-auto"> 總計：{{ $currency.currencyUSD(carts.final_total) }}</div>
                     </div>
                 </div>
                 <div class="modal-footer">

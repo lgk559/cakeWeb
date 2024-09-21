@@ -1,6 +1,11 @@
 /*--------------------------------------------------------------
 /** 1. VARIABLES
 --------------------------------------------------------------*/
+$destopSize: 1280px;
+$ipadSize: 1200px;
+$mobileSize: 767px;
+$sm: 576px;
+
   $--bs-gray-0: #ffffff;
   $--bs-gray-100: #f3f3f3;
   $--bs-gray-200: #efefef;
@@ -63,7 +68,13 @@
 }
 // 最外層容器設定
 #app {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.main {
+  flex-grow: 1;
 }
 
 // 麵包屑
@@ -83,7 +94,7 @@
   @media (max-width: 991px) {
     // bootstrap5	lg 的斷點
     top: 95%;
-    right: 3%;
+    right: 5%;
   }
   i{
     font-size: 1.5rem;

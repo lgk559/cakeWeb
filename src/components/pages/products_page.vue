@@ -20,8 +20,8 @@
         <p>{{ productdData.description }}</p>
         <hr>
         <div class="d-flex my-2">
-          <div class="col-auto text-danger h4 me-3 fw-bold">NT${{ productdData.price }}</div>
-          <div class="col-auto text-decoration-line-through text-secondary">NT${{ productdData.origin_price }}</div>
+          <div class="col-auto text-danger h4 me-3 fw-bold">NT${{ $currency.currencyUSD(productdData.price) }}</div>
+          <div class="col-auto text-decoration-line-through text-secondary">NT${{ $currency.currencyUSD(productdData.origin_price) }}</div>
         </div>
         <div class="d-flex flex-wrap justify-content-round mb-4">
           <div class="col-12 p">
@@ -43,12 +43,12 @@
             </button>
           </div>
           <div class="col-6 px-1">
-            <button type="button" class="btn btn-danger btn-sm ml-auto w-100 p-2"
+            <router-link to="/check/cart" type="button" class="btn btn-danger btn-sm ml-auto w-100 p-2"
               :disabled="status.productChangeToCart || status.productLoading == productdData.id" @click=addtoCart(productdData.id)>
               <i class="fas fa-spinner fa-spin" v-if="status.productChangeToCart == productdData.id"></i>
               <!-- 直接購買 -->
               <i class="fa-solid fa-cart-shopping"></i> 直接購買
-            </button>
+            </router-link>
           </div>
         </div>
       </div>

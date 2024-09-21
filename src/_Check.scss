@@ -1,0 +1,163 @@
+// 訂單流程
+.step {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    max-width: 1000px;
+    overflow: hidden;
+    margin: 5% auto;
+    * {
+        box-sizing: border-box;
+    }
+    .item {
+        justify-content: center;
+        align-items: center;
+        // flex-wrap: wrap;
+        &.active .num,&.finish .num {
+            background-color: #281501;
+            color: #fff;
+        }
+        &.active .line,&.finish .line {
+            background-color: #281501;
+        }
+    }
+    .num {
+        max-width: 5rem;
+        max-height: 5rem;
+        width: 13vw;
+        height: 13vw;
+        border: 1px solid #281501;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .line {
+        max-width: 8rem;
+        max-height: 0.5rem;
+        width: 10vw;
+        height: 1vw;
+        background-color: #ccc;
+        margin: 0 5%;
+        transform: translateY(-0.8rem);
+        
+    }
+    .txt {
+        flex: 0 0 100%;
+        text-align: center;
+        white-space:nowrap;
+        @media (max-width: $sm) {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+
+// 訂購商品表格
+.orderBox {
+    max-width: 1000px;
+    margin: 2rem auto 2rem;
+    // border: 1px solid;
+    box-shadow: 2px 5px 10px #bcbcbc;
+    border-radius: 5px;
+    & > ul > li:nth-of-type(2n+1) {
+        // background-color: #f7f7f7;
+        border-top: 2px solid #bcbcbc;
+    }
+    & > ul > li {
+        position: relative;
+        overflow: hidden;
+    }
+    .orderBox-header {
+        text-align: center;
+        // background-color: #dcdcdc;
+    }
+    img {
+        width: 100%;
+        height: auto;
+        max-width: 8rem;
+        @media (max-width: $mobileSize) {
+            max-width: 7rem;
+        }
+        @media (max-width: $sm) {
+            max-width: 5rem;
+        }
+    }
+    .info {
+        flex-grow: 1;
+    }
+    .qtySelect {
+        width: 90%;
+        min-width: 6rem;
+    }
+    .addCartNum {
+        @media (max-width: $mobileSize) {
+            width: 70%;
+            min-width: 3rem;
+        }
+        @media (max-width: $sm) {
+            width: 45%;
+        }
+
+    }
+    .control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 3%;
+        cursor: pointer;
+        @media (max-width: $mobileSize) {
+            position: absolute;
+            right: -4rem;
+            width: 4rem;
+            height: 60%;
+            background: #ccc;
+            transition: right 1s;
+            transform: translateY(0%);
+            top: unset;
+            bottom: 0;
+            margin-bottom: 2%;
+        }
+        
+        &.active {
+            @media (max-width: $mobileSize) {
+                right: 1rem;
+            }
+        }
+        & > div {
+            @media (max-width: $mobileSize) {
+                background-color: var(--bs-danger);
+                color: #fff;
+            }
+        }
+    }
+
+    // 
+    .side-right {
+        transition: transform 1s;
+        background-color: #fff;
+        &.active{
+            @media (max-width: 400px) {
+                transform: translateX(-5rem);
+                
+            }
+        }
+    }
+    #discount {
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        z-index: 1;
+    }
+    .openDiscountBtn {
+        width: 70%;
+        margin: 0 auto;
+        color: #8d8d8d;
+        border: 1px solid #8d8d8d;
+        box-sizing: border-box;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        flex-grow: 1;
+        cursor: pointer;
+    }
+}
