@@ -44,11 +44,6 @@ const routes = [
             component: () => import("*/components/pages/check_cart.vue"),
           },
           {
-            path: "order",
-            name: "order",
-            component: () => import("*/components/pages/check_order.vue"),
-          },
-          {
             path: "order_check",
             name: "order_check",
             component: () => import("*/components/pages/check_order_check.vue"),

@@ -1,9 +1,9 @@
 <template>
     <loading v-model:active="isLoading" />
-    <div class="orderBox">
+    <div class="check_cart">
         <ul>
             <li>
-                <div class="orderBox-header py-2 border-bottom bg-brown text-gold">
+                <div class="check_cart-header py-2 border-bottom bg-brown text-gold">
                     訂單名細
                 </div>
             </li>
@@ -77,9 +77,9 @@
                     </div>
                 </div>
                 <div class="col-md-auto col-6 flex-grow-1">
-                    <button type="button" class="btn btn-gold btn-sm ml-auto w-100">
+                    <router-link to="/check/order_check" type="button" class="btn btn-gold btn-sm ml-auto w-100">
                         結帳
-                    </button>
+                    </router-link>
                 </div>
             </div>
         </div>

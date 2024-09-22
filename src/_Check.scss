@@ -26,11 +26,12 @@
         max-height: 5rem;
         width: 13vw;
         height: 13vw;
-        border: 1px solid #281501;
+        border: 2px solid #281501;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: #fff;
     }
     .line {
         max-width: 8rem;
@@ -54,21 +55,25 @@
 
 
 // 訂購商品表格
-.orderBox {
+.check_cart,.check_orderCart {
     max-width: 1000px;
-    margin: 2rem auto 2rem;
+    margin: 1rem auto 2rem;
     // border: 1px solid;
     box-shadow: 2px 5px 10px #bcbcbc;
-    border-radius: 5px;
+    background-color: #fff;
     & > ul > li:nth-of-type(2n+1) {
-        // background-color: #f7f7f7;
+        background-color: #f7f7f7;
         border-top: 2px solid #bcbcbc;
     }
-    & > ul > li {
-        position: relative;
-        overflow: hidden;
+
+    & > ul  {
+        
+        li {
+            position: relative;
+            overflow: hidden;
+        }
     }
-    .orderBox-header {
+    .check_cart-header {
         text-align: center;
         // background-color: #dcdcdc;
     }
@@ -159,5 +164,22 @@
         font-size: 0.8rem;
         flex-grow: 1;
         cursor: pointer;
+    }
+}
+
+.check_order_check {
+    max-width: 1000px;
+    margin: 0rem auto 2rem;
+    // border: 1px solid;
+    
+    .check_orderCart-header {
+        text-align: center;
+        margin: 0 auto;
+
+    }
+    .check_order-form, .check_order-pay, .check_order-deliver {
+        background-color: #fff;
+        box-shadow: 2px 5px 10px #bcbcbc;
+        
     }
 }
