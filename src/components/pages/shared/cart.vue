@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">繼續購買</button>
-                    <router-link to="/check/cart" type="button" class="btn btn-danger" @click="closeCart">前往結帳</router-link>
+                    <router-link to="/check/order_cart" type="button" class="btn btn-danger" @click="closeCart">前往結帳</router-link>
                 </div>
             </div>
         </div>

@@ -39,8 +39,8 @@ const routes = [
         component: () => import("*/components/pages/check.vue"),
         children: [
           {
-            path: "cart",
-            name: "cart",
+            path: "order_cart",
+            name: "order_cart",
             component: () => import("*/components/pages/check_cart.vue"),
           },
           {

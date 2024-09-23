@@ -64,6 +64,9 @@
     & > ul > li:nth-of-type(2n+1) {
         background-color: #f7f7f7;
         border-top: 2px solid #bcbcbc;
+        .side-right {
+            background-color: #f7f7f7;
+        }
     }
 
     & > ul  {
@@ -171,7 +174,13 @@
     max-width: 1000px;
     margin: 0rem auto 2rem;
     // border: 1px solid;
-    
+    ul.check_orderCart > li:nth-of-type(2n+1) {
+        background-color: #f7f7f7;
+        // border-top: 2px solid #bcbcbc;
+        .side-right {
+            background-color: #f7f7f7;
+        }
+    }
     .check_orderCart-header {
         text-align: center;
         margin: 0 auto;
@@ -180,6 +189,12 @@
     .check_order-form, .check_order-pay, .check_order-deliver {
         background-color: #fff;
         box-shadow: 2px 5px 10px #bcbcbc;
+        button {
+            max-height: 2rem; 
+            // margin-top: 1rem;
+        }
+    }
+    .check_order-pay {
         
     }
 }
