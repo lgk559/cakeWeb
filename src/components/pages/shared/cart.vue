@@ -101,7 +101,6 @@ function getCart() {
             carts.value = response.data.data;
             status.value.productChangeToCart = '';
             returnCartData();
-            console.log(Object.keys(carts.value).length)
         }
     })
 }
@@ -171,10 +170,9 @@ onMounted(() => {
     })
     emitter.on('cart:init', (useCoupon=false) => {
         if(useCoupon){
+            // 如果結帳時有始用折價券，不能回傳舊的資料，需要再抓新的
             getCart();
-        }
-        if(Object.keys(carts.value).length!= 0){
-            // init回傳
+        }else{
             returnCartData();
         }
     });

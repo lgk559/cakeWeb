@@ -23,9 +23,9 @@
                 </a>
             </li>
             <li class="nav-item mx-2">
-                <a class="nav-link text-gold" href="#">
+                <router-link class="nav-link text-gold" to="/purchase">
                     訂單查詢
-                </a>
+                </router-link>
             </li>
             <li class="nav-item mx-2">
                 <router-link class="nav-link text-gold"  to="/login">

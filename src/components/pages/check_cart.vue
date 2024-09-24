@@ -181,11 +181,11 @@ let status = ref({
     productChangeToCart: '',
 });
 
+//折扣
 let coupon = ref({
     'code' : null,
     'title' : ''
-}); //折扣
-// let openControl = ref(false)
+}); 
 
 function getCartData(isUseCoupon = false) {
     // 執行cart.vue元件的函式
@@ -241,7 +241,6 @@ onMounted(() => {
         // 接收來自cart.vue的資料
         carts.value = data;
         cartsLength.value = data.carts.length;
-        console.log('updata')
     });
 
     getCartData()
