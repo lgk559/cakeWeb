@@ -10,3 +10,18 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 // .mycolor {
 //   color: $custom-colors;
 // }
+:root {
+  --bs-emphasis-color:#281501;
+
+}
+
+.tooltip .tooltip-inner {
+  text-align: left; /* 內文靠左，預設置中 */ 
+  background-color: #281501; /* 背景顏色 */
+}
+.tooltip .arrow::before {
+  border-right-color: #281501;
+  border-top-color: #281501; /* 箭頭區塊上 */
+  border-bottom-color: #281501; /* 箭頭區塊下 */
+  border-left-color: #281501;
+}

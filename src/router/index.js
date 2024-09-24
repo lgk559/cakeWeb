@@ -34,6 +34,11 @@ const routes = [
         component: () => import("*/components/pages/brand.vue"),
       },
       {
+        path: "/purchase",
+        name: "purchase",
+        component: () => import("*/components/pages/purchase.vue"),
+      },
+      {
         path: "/check",
         name: "check",
         component: () => import("*/components/pages/check.vue"),
@@ -54,7 +59,8 @@ const routes = [
             component: () => import("*/components/pages/check_order_finish.vue"),
           }
         ]
-      }
+      },
+      
     ]
   },
   {

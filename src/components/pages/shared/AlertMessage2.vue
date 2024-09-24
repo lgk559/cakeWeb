@@ -19,8 +19,8 @@ function updateMessage(message, status) {
     const timestamp = Math.floor(new Date() / 1000);
     messages.value.push({
         message,
-          status,
-          timestamp,
+        status,
+        timestamp,
     });
     removeMessageWithTiming(timestamp);
 }

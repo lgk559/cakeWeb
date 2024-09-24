@@ -76,6 +76,19 @@ $sm: 576px;
 }
 .main {
   flex-grow: 1;
+  margin-top: 50px;
+}
+
+// 商品清單
+.SearchBox{
+  .search {
+    @media (max-width: $sm) {
+      width: 8rem;
+    }
+    button {
+      white-space:nowrap;
+    }
+  }
 }
 
 // 麵包屑
@@ -91,7 +104,7 @@ $sm: 576px;
   position: fixed;
   right: 5%;
   top: 1.2rem;
-  z-index: 1021;
+  z-index: 1031;
   @media (max-width: 991px) {
     // bootstrap5	lg 的斷點
     top: 95%;

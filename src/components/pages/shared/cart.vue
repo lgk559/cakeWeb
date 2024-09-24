@@ -1,6 +1,6 @@
 <template>
     <loading v-model:active="isLoading" />
-    <div class="d-flex text-gold" id="cart" v-if="carts.carts">
+    <div class="d-flex text-gold position-fixed" id="cart" v-if="carts.carts">
         <div type="button" class="nav-iteme">
             <div class="nav-link" @click="openCart">
                 <i class="fa-solid fa-cart-shopping"></i>
@@ -84,7 +84,7 @@ const router = useRouter()
 import { Modal } from "bootstrap";
 import $ from "jquery";
 window.$ = $;
-const carts = ref([]);
+let carts = ref({});
 const modalEle_cart = ref(null);
 let thisModalObj_cart = null;
 
@@ -97,10 +97,11 @@ let status = ref({
 function getCart() {
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;
     axios.get(api).then((response) => {
-        // console.log(response.data)
         if (response.data.success) {
             carts.value = response.data.data;
             status.value.productChangeToCart = '';
+            returnCartData();
+            console.log(Object.keys(carts.value).length)
         }
     })
 }
@@ -112,7 +113,6 @@ function closeCart(){
 }
 
 function changeCart(e,id,value) {
-    console.log('changeCart')
     let qty = value ? value : e.target.value;
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/cart`;   
 
@@ -153,6 +153,10 @@ function deleteCart(id) {
     })
 }
 
+function returnCartData(){
+    emitter.emit('cart:returndata',carts.value);
+}
+
 
 
 onMounted(() => {
@@ -162,6 +166,18 @@ onMounted(() => {
         let qty = data[1]
         changeCart(null,id,qty)
     })
+    emitter.on('cart:delete',(id)=>{
+        deleteCart(id);
+    })
+    emitter.on('cart:init', (useCoupon=false) => {
+        if(useCoupon){
+            getCart();
+        }
+        if(Object.keys(carts.value).length!= 0){
+            // init回傳
+            returnCartData();
+        }
+    });
     getCart();
 })
 

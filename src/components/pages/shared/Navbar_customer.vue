@@ -1,5 +1,5 @@
 <template>
-    <nav class="sticky-top navbar navbar-dark navbar-expand-lg  bg-brown text-gold">
+    <nav class="fixed-top navbar navbar-dark navbar-expand-lg  bg-brown text-gold">
         <div class="container-fluid justify-content-lg-center justify-content-md-between">
             <a class="navbar-brand text-gold" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

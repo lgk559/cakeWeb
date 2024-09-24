@@ -34,10 +34,10 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-auto m-md-0 m-auto">
+                    <div class="search col-auto m-md-0 p-0">
                         <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="Keywords">
-                            <button class="btn btn-outline-success" type="submit" @click.prevent="filter_product_in_Keywords">Search</button>
+                            <input class="form-control" type="search" placeholder="輸入關鍵字" aria-label="Search" v-model="Keywords" @keyup.13="filter_product_in_Keywords">
+                            <button class="btn btn-outline-success d-md-block d-none ms-1" type="submit" @click.prevent="filter_product_in_Keywords">搜尋</button>
                         </form>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                                     </router-link>
                                     <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id"
-                                        @click=getCart(item.id)>
+                                        @click=addtoCart(item.id)>
                                         <i class="fas fa-spinner fa-spin"
                                             v-if="status.productChangeToCart == item.id"></i>
                                         <!-- 加到購物車 -->
@@ -177,7 +177,7 @@ function filter_product_in_category(filterValue = '全部') {
 function filter_product_in_Keywords() {
     let nowarr = [];
     isReverse_type.value = '';
-    products_all.forEach((item) => {
+    products_all.value.forEach((item) => {
         let is_has = item.title.search(Keywords.value);
         if(is_has != -1){nowarr.push(item)}
     });
@@ -217,15 +217,6 @@ function changeReverse(type) {
         changePage(1);
     }
 }
-function gotoProductPage(id) {
-    const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/product/${id}`;
-    axios.get(api).then((response) => {
-        if (response.data.success) {
-            let data = response.data.product;
-            console.log(data)
-        }
-    })
-}
 function getProductsAll() {
     isLoading.value = true;
     const api = `${import.meta.env.VITE_APIPATH}/api/${import.meta.env.VITE_CUSTOMPATH}/products/all`;
@@ -237,7 +228,7 @@ function getProductsAll() {
     })
 }
 
-function getCart(id,qty=1){
+function addtoCart(id,qty=1){
     status.value.productChangeToCart = id
     emitter.emit('cart:change',[id,qty])
 }

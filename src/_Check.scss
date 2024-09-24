@@ -151,7 +151,7 @@
             }
         }
     }
-    #discount {
+    #coupon {
         position: sticky;
         bottom: 0;
         width: 100%;
@@ -197,4 +197,12 @@
     .check_order-pay {
         
     }
+}
+
+// 訂單列表
+.orderList {
+    max-width: 1000px;
+    margin: 1rem auto 2rem;
+    box-shadow: 2px 5px 10px #bcbcbc;
+    background-color: #fff;
 }
