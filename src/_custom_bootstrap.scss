@@ -4,6 +4,10 @@ $custom-colors: (
   "brown" :#281501
 );
 
+
+$gold: #F8D06B;
+$brown :#281501;
+
 // Merge the maps
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
@@ -14,6 +18,12 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   --bs-emphasis-color:#281501;
 
 }
+
+$form-check-input-checked-bg-color:#281501;             
+$form-check-input-border:1px solid #281501;
+$form-check-input-checked-border-color:#281501;
+$form-check-input-focus-box-shadow: 1px 1px 2px rgb(40, 21, 1,0.2);
+
 
 .tooltip .tooltip-inner {
   text-align: left; /* 內文靠左，預設置中 */ 

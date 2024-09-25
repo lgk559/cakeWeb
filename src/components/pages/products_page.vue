@@ -15,7 +15,7 @@
          
         </nav>
         <h3 class="d-flex align-items-center">{{ productdData.title }} <span
-            class="h5 m-0 ms-3 badge text-gold bg-brown py-1 px-2">{{ productdData.category }}</span></h3>
+            class="h5 m-0 ms-3 badge rounded-pill text-gold bg-brown py-2 px-3">{{ productdData.category }}</span></h3>
         <p>{{ productdData.content }}</p>
         <p>{{ productdData.description }}</p>
         <hr>

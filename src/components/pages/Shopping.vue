@@ -2,23 +2,23 @@
     <loading v-model:active="isLoading" />
     <div class="container position-relative">
         <div class="row">
-            <div class="col-12 border-start p-1">
-                <div class="row mt-md-2 m-0 sticky-top SearchBox">
-                    <div class="col-auto">
+            <div class="col-12 border-start p-md-3 p-1">
+                <div class="d-flex mt-md-3 m-0 sticky-top SearchBox">
+                    <div class="col-auto ps-md-3 ps-1">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" :class="{'btn-primary':isReverse_type =='','btn-outline-primary':isReverse_type !=''}"
+                                <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" :class="{'btn-brown':isReverse_type !='price','text-white':isReverse_type !='price','btn-outline-brown':isReverse_type =='price'}"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     分類 <span>：{{ categoryItem }}</span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <li class="dropdown-item" @click="filter_product_in_category(item)">
+                                <ul class="dropdown-menu py-2" aria-labelledby="btnGroupDrop1">
+                                    <li class="dropdown-item px-3 py-1" @click="filter_product_in_category(item)">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="全部" v-model="categoryItem">
+                                            <input class="form-check-input text-brown" type="radio" name="flexRadioDefault" id="'flexRadioDefault'" value="全部" v-model="categoryItem">
                                             <label class="form-check-label" for="'flexRadioDefault'">全部</label>
                                         </div>
                                     </li>
-                                    <li v-for="(item, index) in category" class="dropdown-item"
+                                    <li v-for="(item, index) in category" class="dropdown-item px-3 py-1"
                                         @click="filter_product_in_category(item)">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="flexRadioDefault"
@@ -28,24 +28,24 @@
                                     </li>
                                 </ul>
                             </div>
-                            <button type="button" class="btn" @click="changeReverse('price')"  :class="{'btn-primary':isReverse_type =='price','btn-outline-primary':isReverse_type !='price'}">
+                            <button type="button" class="btn" @click="changeReverse('price')"  :class="{'btn-brown':isReverse_type =='price','btn-outline-brown':isReverse_type !='price'}">
                                 價格
                                 <i class="fa-solid fa-arrow-down-wide-short" :class= "{'fa-arrow-down-wide-short' : !isReverse.price, 'fa-arrow-down-short-wide' : isReverse.price}"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="search col-auto m-md-0 p-0">
+                    <div class="search col-auto m-md-0 px-md-2 ps-1">
                         <form class="d-flex">
-                            <input class="form-control" type="search" placeholder="輸入關鍵字" aria-label="Search" v-model="Keywords" @keyup.13="filter_product_in_Keywords">
-                            <button class="btn btn-outline-success d-md-block d-none ms-1" type="submit" @click.prevent="filter_product_in_Keywords">搜尋</button>
+                            <input class="form-control border-brown" type="search" placeholder="輸入關鍵字" aria-label="Search" v-model="Keywords" @keyup.13="filter_product_in_Keywords">
+                            <button class="btn btn-outline-brown d-md-block d-none ms-1" type="submit" @click.prevent="filter_product_in_Keywords">搜尋</button>
                         </form>
                     </div>
                 </div>
-                <div class="row align-items-stretch m-md-2 m-0">
+                <div class="d-flex flex-wrap align-items-stretch my-md-3 mx-0 my-3">
                     <template v-if="product_in_page.length > 0">
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-6 mb-4  p-1" v-for="item in product_in_page"
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-12 px-3 pb-3" v-for="item in product_in_page"
                             :key="item.id">
-                            <div class="card border-1 shadow-sm height-100 ">
+                            <div class="card border-1 shadow-sm height-100">
                                 <div class="rounded-top hoverScale" style="height: 150px;">
                                     <router-link class="d-block hoverScale-img" 
                                         :to="'/page/'+item.id"
@@ -55,7 +55,7 @@
                                     </router-link>
                                 </div>
                                 <div class="card-body">
-                                    <span class="badge border border-primary text-primary float-right mb-2 ">{{
+                                    <span class="badge border border-brown text-brown float-right mb-2 ">{{
                                         item.category }}</span>
                                     <p class="card-title omit-1 fs-6 fw-normal">
                                         <a href="" class="text-dark text-decoration-none">{{ item.title }}</a>
@@ -74,14 +74,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer d-flex justify-content-center p-1">
-                                    <router-link :to="'/page/'+item.id" type="button" class="btn btn-outline-secondary btn-sm me-3"
+                                <div class="card-footer d-flex justify-content-center bg-brown p-1">
+                                    <router-link :to="'/page/'+item.id" type="button" class="btn btn-outline-gold btn-sm me-3"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id">
                                             <i class="fas fa-spinner fa-spin" v-if="status.productLoading == item.id"></i>
                                             <i class="fa-solid fa-magnifying-glass"></i>
                                         <!-- 查看更多 -->
                                     </router-link>
-                                    <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
+                                    <button type="button" class="btn btn-outline-gold btn-sm ml-auto"
                                         :disabled="status.productChangeToCart || status.productLoading == item.id"
                                         @click=addtoCart(item.id)>
                                         <i class="fas fa-spinner fa-spin"

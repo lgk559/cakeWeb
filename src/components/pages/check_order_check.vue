@@ -1,8 +1,8 @@
 <template>
     <div class="check_order_check d-flex flex-wrap">
-        <div class="col-12 px-md-5 px-2">
+        <div class="col-12 px-md-5 px-3">
             <ul class="check_orderCart">
-                <li>
+                <li class="border-0">
                     <div class="check_orderCart-header py-2 border-bottom bg-brown text-gold">
                         訂購確認
                     </div>
@@ -18,7 +18,7 @@
                                 {{ item.product.title }}
                             </router-link>
                         </div>
-                        <ul class="info d-flex align-items-center flex-wrap px-md-5 px-md-0 px-2">
+                        <ul class="info d-flex align-items-center flex-wrap px-md-5 px-md-0 ps-2">
                             <li class="col-md-auto col-5">
                                 數量：{{ item.qty }}
                             </li>
@@ -62,9 +62,9 @@
                     <div class="col-12 p-3">
                         <div class="form-group mb-3">
                             <label for="useremail">Email</label>
-                            <VField type="email" class="form-control mt-1" name="email" id="useremail"
+                            <VField type="email" class="form-control mt-1" name="Email" id="useremail"
                                 v-model="form.user.email" placeholder="請輸入 Email" rules="required|email" />
-                            <ErrorMessage name="email" class="text-danger" />
+                            <ErrorMessage name="Email" class="text-danger" />
                         </div>
 
                         <div class="form-group mb-3">
@@ -128,11 +128,11 @@
                             <!-- <button class="col-auto btn btn-outline-secondary dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">選擇支付的信用卡
                         </button> -->
-                            <ul class="dropdown-menu0 p-1">
+                            <ul class="p-md-0 pt-3">
                                 <li class="d-flex mb-3" data-bs-toggle="tooltip" data-bs-placement="top"
                                     title="此為範例示意，還未串接金流">
-                                    <div class="col-1 d-flex justify-content-center align-item-center">
-                                        <input type="radio" name="" id="card1" value="520" checked>
+                                    <div class="col-1 d-flex justify-content-center align-items-center">
+                                        <input class="form-check-input" type="radio" name="" id="card1" value="520" checked>
                                     </div>
                                     <div class="col-11 d-flex border">
                                         <label class="col-12 d-flex flex-wrap align-item-center p-1" for="card1">
@@ -143,9 +143,11 @@
                             </ul>
                         </div>
                         <div v-if="pay == '銀行轉帳'" class="col-md col-12 flex-grow-1 ms-3">
-                            <div class="d-flex mb-3 p-1">
-                                <div class="bankName me-3">台灣銀行</div>
-                                <div class="bankAccout">111000222255888</div>
+                            <div class="col-11 d-flex border">
+                                <div class="col-12 d-flex flex-wrap align-item-center p-1">
+                                    <div class="bankName me-3">台灣銀行</div>
+                                    <div class="bankAccout">111000222255888</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,9 +169,11 @@
                         </ul>
                         <div v-if="deliver == '宅配'" class="col-md col-12 flex-grow-1 ms-3" data-bs-toggle="tooltip"
                             data-bs-placement="top" title="此為範例示意，還未串接物流">
-                            <div class="d-flex mb-3 p-1">
-                                <div class="bankName me-3">黑貓宅急便</div>
-                                <div class="bankAccout">低溫配送</div>
+                            <div class="col-11 d-flex border">
+                                <div class="col-12 d-flex flex-wrap align-item-center p-1">
+                                    <div class="bankName me-3">黑貓宅急便</div>
+                                    <div class="bankAccout">低溫配送</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -184,9 +188,9 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-md-end justify-content-center mt-4">
-                    <router-link to="/check/order_cart" class="btn btn-secondary me-md-5 me-0">修改訂單</router-link>
-                    <button class="btn btn-brown text-gold" type="submit">送出訂單</button>
+                <div class="d-flex justify-content-around mt-4">
+                    <router-link to="/check/order_cart" class="col-5 btn btn-outline-secondary me-md-5 me-0">修改訂單</router-link>
+                    <button class="col-5 btn btn-brown text-gold" type="submit">送出訂單</button>
                 </div>
             </VForm>
         </div>

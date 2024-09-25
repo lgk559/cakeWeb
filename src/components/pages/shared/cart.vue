@@ -19,7 +19,7 @@
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog w-md-auto w-100 mx-sm-auto mx-0" role="document">
             <div class="modal-content border-0">
-                <div class="modal-header bg-custom text-white">
+                <div class="modal-header bg-custom text-brown">
                     <h5 class="modal-title" id="exampleModalLabel">
                         <span>您目前的購物車品項</span>
                     </h5>
@@ -39,22 +39,22 @@
                         <tbody>
                             <tr v-for="item in carts.carts" key="item.id">
                                 <td class="col">
-                                    <button type="button" class="btn btn-danger btn-sm me-md-3 me-0" @click="deleteCart(item.id),status.productChangeToCart = item.product.id">
+                                    <button type="button" class="btn btn-brown btn-sm me-md-3 me-0" @click="deleteCart(item.id),status.productChangeToCart = item.product.id">
                                         <i v-if="status.productChangeToCart == item.product.id" class="fas fa-spinner fa-spin"></i>
                                         <div v-else class="p">X</div>
                                     </button>
                                 </td>
                                 <td class="col">
                                     <div class="p omit-1">
-                                        <router-link :to="`/page/${item.product.id}`" @click="closeCart">
+                                        <router-link class="nav-link" :to="`/page/${item.product.id}`" @click="closeCart">
                                             {{item.product.title}}
                                         </router-link>
                                     </div>
                                 </td>
                                 <td class="col d-flex">
-                                    <button type="button" class="btn btn-primary rounded-0 rounded-start" :disabled="item.qty<=1" @click="changeCart($event,item.product.id,item.qty-1)">-</button>
+                                    <button type="button" class="btn btn-brown rounded-0 rounded-start" :disabled="item.qty<=1" @click="changeCart($event,item.product.id,item.qty-1)">-</button>
                                     <input type="txt" class="form-control rounded-0 addCartNum text-center" :value="item.qty" @change="changeCart($event,item.product.id)">
-                                    <button type="button" class="btn btn-primary rounded-0 rounded-end" @click="changeCart($event,item.product.id,item.qty+1)">+</button>
+                                    <button type="button" class="btn btn-brown rounded-0 rounded-end" @click="changeCart($event,item.product.id,item.qty+1)">+</button>
                                 </td>
                                 <td class="col d-md-table-cell d-none">{{ $currency.currencyUSD(item.product.price) }}</td>
                                 <td class="col d-md-table-cell d-none">{{ $currency.currencyUSD(item.total) }}</td>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">繼續購買</button>
-                    <router-link to="/check/order_cart" type="button" class="btn btn-danger" @click="closeCart">前往結帳</router-link>
+                    <router-link to="/check/order_cart" type="button" class="btn btn-brown" @click="closeCart">前往結帳</router-link>
                 </div>
             </div>
         </div>
@@ -173,7 +173,10 @@ onMounted(() => {
             // 如果結帳時有始用折價券，不能回傳舊的資料，需要再抓新的
             getCart();
         }else{
-            returnCartData();
+            if(Object.keys(carts.value).length!= 0){
+                // init回傳
+                returnCartData();
+            }
         }
     });
     getCart();

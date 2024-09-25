@@ -3,7 +3,7 @@
 
     <div v-if="cartsLength != 0" class="check_cart">
         <ul>
-            <li>
+            <li class="border-0">
                 <div class="check_cart-header py-2 border-bottom bg-brown text-gold">
                     訂單名細
                 </div>
