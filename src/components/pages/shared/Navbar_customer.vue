@@ -1,7 +1,9 @@
 <template>
     <nav class="fixed-top navbar navbar-dark navbar-expand-lg  bg-brown text-gold">
         <div class="container-fluid justify-content-lg-center justify-content-md-between">
-            <a class="navbar-brand text-gold" href="#">Navbar</a>
+            <a class="navbar-brand text-gold" href="#">
+                <i class="fa-solid fa-cake-candles"></i> Cake
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#pageTopNav" aria-controls="pageTopNav" :aria-expanded="isNavShow"
                 aria-label="Toggle navigation">

@@ -13,14 +13,14 @@
                 </router-link>
             </li>
             <li class="nav-item mx-2">
-                <a class="nav-link text-gold" href="#" @click="closeNav">
+                <router-link class="nav-link text-gold" to="/qa" @click="closeNav">
                     購物需知
-                </a>
+                </router-link>
             </li>
             <li class="nav-item mx-2">
-                <a class="nav-link text-gold" href="#" @click="closeNav">
+                <router-link class="nav-link text-gold" to="/store" @click="closeNav">
                     門市據點
-                </a>
+                </router-link>
             </li>
             <li class="nav-item mx-2">
                 <router-link class="nav-link text-gold" to="/purchase" @click="closeNav">
