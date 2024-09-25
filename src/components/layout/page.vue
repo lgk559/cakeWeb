@@ -3,32 +3,32 @@
         <Alert />
         <Navbar>
             <li class="nav-item  mx-2">
-                <router-link class="nav-link text-gold" to="/shopping">
+                <router-link class="nav-link text-gold" to="/shopping" @click="closeNav">
                     商品資訊
                 </router-link>
             </li>     
             <li class="nav-item mx-2">
-                <router-link class="nav-link text-gold" to="/brand">
+                <router-link class="nav-link text-gold" to="/brand" @click="closeNav">
                     品牌介紹
                 </router-link>
             </li>
             <li class="nav-item mx-2">
-                <a class="nav-link text-gold" href="#">
+                <a class="nav-link text-gold" href="#" @click="closeNav">
                     購物需知
                 </a>
             </li>
             <li class="nav-item mx-2">
-                <a class="nav-link text-gold" href="#">
+                <a class="nav-link text-gold" href="#" @click="closeNav">
                     門市據點
                 </a>
             </li>
             <li class="nav-item mx-2">
-                <router-link class="nav-link text-gold" to="/purchase">
+                <router-link class="nav-link text-gold" to="/purchase" @click="closeNav">
                     訂單查詢
                 </router-link>
             </li>
             <li class="nav-item mx-2">
-                <router-link class="nav-link text-gold"  to="/login">
+                <router-link class="nav-link text-gold"  to="/login" @click="closeNav">
                     後台登入
                 </router-link>
             </li>
@@ -42,6 +42,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, onBeforeMount } from 'vue'
+import emitter from '*/EventBus';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 import axios from 'axios'
@@ -49,6 +50,10 @@ import Navbar from '*/components/pages/shared/Navbar_customer.vue'
 import Cart from '*/components/pages/shared/cart.vue'
 import Alert from '*/components/pages/shared/AlertMessage2.vue';
 import Footer from '*/components/pages/shared/footer.vue'
+
+function closeNav(){
+    emitter.emit('nav:close')
+}
 
 onBeforeMount(() => {
     var myCookie = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
