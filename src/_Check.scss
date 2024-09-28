@@ -88,7 +88,7 @@
         width: 100%;
         height: auto;
         max-width: 8rem;
-        @media (max-width: $mobileSize) {
+        @media (max-width: $md) {
             max-width: 7rem;
         }
         @media (max-width: $sm) {
@@ -103,7 +103,7 @@
         min-width: 6rem;
     }
     .addCartNum {
-        @media (max-width: $mobileSize) {
+        @media (max-width: $md) {
             width: 70%;
             min-width: 3rem;
         }
@@ -118,7 +118,7 @@
         transform: translateY(-50%);
         right: 3%;
         cursor: pointer;
-        @media (max-width: $mobileSize) {
+        @media (max-width: $md) {
             position: absolute;
             right: -4rem;
             width: 4rem;
@@ -132,12 +132,12 @@
         }
         
         &.active {
-            @media (max-width: $mobileSize) {
+            @media (max-width: $md) {
                 right: 1rem;
             }
         }
         & > div {
-            @media (max-width: $mobileSize) {
+            @media (max-width: $md) {
                 background-color: var(--bs-danger);
                 color: #fff;
             }

@@ -11,7 +11,7 @@ h1{
     @media only screen and (max-width: $ipadSize) {
         font-size: $p_t*2.1875;
     }
-    @media (max-width: $mobileSize) {
+    @media (max-width: $md) {
         font-size: $p_m*2.1875;
     }
 }
@@ -21,7 +21,7 @@ h2{
     @media only screen and (max-width: $ipadSize) {
         font-size: $p_t*1.875;
     }
-    @media (max-width: $mobileSize) {
+    @media (max-width: $md) {
         font-size: $p_m*1.875;
     }
 }
@@ -31,7 +31,7 @@ h3{
     @media only screen and (max-width: $ipadSize) {
         font-size: $p_t*1.5625;
     }
-    @media (max-width: $mobileSize) {
+    @media (max-width: $md) {
         font-size: $p_m*1.5625;
     }
 }
@@ -41,7 +41,7 @@ h4{
     @media only screen and (max-width: $ipadSize) {
         font-size: $p_t*1.25;
     }
-    @media (max-width: $mobileSize) {
+    @media (max-width: $md) {
         font-size: $p_m*1.25;
     }
 }
@@ -51,7 +51,7 @@ h5{
     @media only screen and (max-width: $ipadSize) {
         font-size: $p_t*0.75;
     }
-    @media (max-width: $mobileSize) {
+    @media (max-width: $md) {
         font-size: $p_m*0.75;
     }
 }
@@ -60,7 +60,7 @@ p {
     @media only screen and (max-width: $ipadSize) {
         font-size: $p_t;
     }
-    @media (max-width: $mobileSize) {
+    @media (max-width: $md) {
         font-size: $p_m;
     }
 }
