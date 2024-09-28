@@ -1,0 +1,29 @@
+.storeList {
+    @media (max-width: $md) {
+        div {
+            text-align: left;
+        }
+        div:nth-of-type(1) {
+            background-color: $brown;
+            color: #fff;
+        }
+        div:nth-child(n+2)[title]:before {
+            content: attr(title);
+            letter-spacing: .25em;
+            border-right: solid 1px #dfdedd;
+            width: 4em;
+            padding: .5em;
+            margin-right: 1em;
+            text-align: center;
+            display: inline-block;
+        }
+    }
+}
+#countyBtn::after,#zip_nameBtn::after {
+    margin-left: 0.5rem;
+}
+
+#countyUl,#zip_nameUl {
+    max-height: 60vh;
+    overflow: auto;
+}
