@@ -58,7 +58,7 @@
                                     <span class="badge border border-brown text-brown float-right mb-2 ">{{
                                         item.category }}</span>
                                     <p class="card-title omit-1 fs-6 fw-normal">
-                                        <a href="" class="text-dark text-decoration-none">{{ item.title }}</a>
+                                        <router-link :to="'/page/'+item.id" class="text-dark text-decoration-none">{{ item.title }}</router-link>
                                     </p>
                                     <p class="card-text omit-2">{{ item.content }}</p>
                                     <div class="d-flex">
