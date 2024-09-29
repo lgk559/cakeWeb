@@ -3,47 +3,54 @@
         <div class="vl-parent">
             <loading v-model:active="isLoading" />
         </div>
-        <div v-if="orders.length > 0" class="d-flex justify-content-center align-items-center text-center p-5">
-            <table class="orderList table table-striped">
-                <thead>
-                    <tr>
-                        <th  class="bg-brown text-gold" scope="col">#</th>
-                        <th  class="bg-brown text-gold" scope="col">購買時間</th>
-                        <th  class="bg-brown text-gold" scope="col">Email</th>
-                        <th  class="bg-brown text-gold" scope="col">購買款項</th>
-                        <th  class="bg-brown text-gold" scope="col">應付金額</th>
-                        <th  class="bg-brown text-gold" scope="col">是否付款</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in orders" :key="item.id">
-                        <template v-if="item.user">
-                            <th scope="row">{{ item.num }}</th>
-                            <td>{{ $mydata.getData(item.create_at) }}</td>
-                            <td>{{ item.user.email }}</td>
-                            <td>
-                                <ul>
-                                    <li v-for="products_item in item.products">
-                                        {{ products_item.product.title }} 數量：{{ products_item.qty }}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>{{ item.total }}</td>
-                            <td>
-                                <span v-if="item.is_paid" class="text-success">已付款</span>
-                                <span v-else>未付</span>
-                            </td>
-                        </template>
-
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div v-else class="d-flex justify-content-center align-items-center text-center p-5">
-            <h1>空</h1>
-            <p>您尚未有訂單哦！</p>
-            <router-link to="/shopping" class="btn btn-outline-brown w-auto">去逛逛</router-link>
-
+        <div class="page-inner">
+            <div class="d-flex justify-content-center align-items-center text-center">
+                <ul class="orderList p-3">
+                    <li class="d-md-flex d-none bg-brown text-white">
+                        <!-- <div class="col-1 text-center border p-2">#</div> -->
+                        <div class="col-2 text-center border p-2">購買時間</div>
+                        <div class="col-2 text-center border p-2">Email</div>
+                        <div class="col-4 text-center border p-2">購買款項</div>
+                        <div class="col-2 text-center border p-2">應付金額</div>
+                        <div class="col-2 text-center border p-2">是否付款</div>
+                    </li>
+                    <template v-if="orders.length < 0">
+                        <li class="d-flex flex-wrap align-items-stretch bg-white mb-md-0 mb-3 text-left" v-for="(item,i) in orders">
+                            <template v-if="item.user">
+                                <!-- <div class="col-md-1 col-12 border p-2" title="#">{{ item.num }}</div> -->
+                                <div class="col-md-2 col-12 d-flex border p-md-2 px-3 py-2" title="購買時間"><span class="align-items-center">{{ $mydata.getData(item.create_at) }}</span></div>
+                                <div class="col-md-2 col-12 d-flex border p-md-2 p-0" title="Email"><span class="align-content-center">{{ item.user.email }}</span></div>
+                                <div class="col-md-4 col-12 d-flex border p-md-2 p-0" title="購買款項">
+                                    <ul class="d-inline-block align-content-center">
+                                        <li v-for="products_item in item.products">
+                                            {{ products_item.product.title }} x {{ products_item.qty }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-2 col-12 d-flex border p-md-2 p-0" title="應付金額">
+                                    <span class="align-content-center">{{ item.total }}</span>
+                                </div>
+                                <div class="col-md-2 col-12 d-flex border p-md-2 p-0" title="是否付款">
+                                    <span class="align-content-center">
+                                        <span v-if="item.is_paid" class="text-success">已付款</span>
+                                        <span v-else>未付</span>
+                                    </span>
+                                </div>
+                            </template>
+                        </li>
+                    </template>
+                    <template v-else>
+                        <li>
+                            <div class="col-12 d-flex flex-wrap justify-content-center align-items-center border p-3 text-center">
+                                <h1 class="col-12">空</h1>
+                                <p class="col-12">您尚未有訂單哦！</p>
+                                <router-link to="/shopping" class="btn btn-outline-brown w-auto">去逛逛</router-link>
+                            </div>
+                        </li>
+                    </template>
+                    
+                </ul>
+            </div>
         </div>
     </div>
 </template>

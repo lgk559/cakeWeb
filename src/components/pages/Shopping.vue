@@ -2,7 +2,7 @@
     <loading v-model:active="isLoading" />
     <div class="container position-relative">
         <div class="row">
-            <div class="col-12 border-start p-md-3 p-1">
+            <div class="col-12 border p-md-3 p-1">
                 <div class="d-flex mt-md-3 m-0 sticky-top SearchBox">
                     <div class="col-auto ps-md-3 ps-1">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">

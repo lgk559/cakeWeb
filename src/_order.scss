@@ -1,0 +1,27 @@
+.orderList {
+    width: 100%;
+    div[title='Email'] {
+        word-break: break-all;
+    }
+    @media (max-width: $md) {
+        div {
+            text-align: left;
+        }
+        div:nth-of-type(1) {
+            background-color: $brown;
+            color: #fff;
+        }
+        div:nth-child(n+2)[title]:before {
+            content: attr(title);
+            letter-spacing: .25em;
+            border-right: solid 1px #dfdedd;
+            width: 7.5em;
+            min-width: 7.5em;
+            padding: .5em;
+            margin-right: 1em;
+            text-align: center;
+            display: inline-block;
+        }
+        
+    }
+}
