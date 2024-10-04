@@ -11,7 +11,7 @@
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                    aria-labelledby="panelsStayOpen-headingOne">
+                    aria-labelledby="panelsStayOpen-headingOne" data-bs-parent="#qaBox">
                     <div class="accordion-body">
                         包裝上印有製造日期，建議您拿到餐點後盡快食用完畢。商品皆需冷藏保守，或是冷凍可加長保守期限。<br>
                         詳細保存參考:<br>
@@ -31,7 +31,7 @@
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                    aria-labelledby="panelsStayOpen-headingThree">
+                    aria-labelledby="panelsStayOpen-headingThree" data-bs-parent="#qaBox">
                     <div class="accordion-body">
                         <ul>
                             <li>冷藏商品取出即可食用。</li>
@@ -50,7 +50,7 @@
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                    aria-labelledby="panelsStayOpen-headingTwo">
+                    aria-labelledby="panelsStayOpen-headingTwo" data-bs-parent="#qaBox">
                     <div class="accordion-body">
                         目前僅提供門市取貨 & 宅配。
                         <ul>

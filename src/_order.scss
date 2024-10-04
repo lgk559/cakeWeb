@@ -24,4 +24,10 @@
         }
         
     }
+    & > li:nth-of-type(2n){
+        background-color: $--bs-gray-200;
+        @media (max-width: $md) {
+            background-color: #fff;
+        }
+    }
 }

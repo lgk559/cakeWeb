@@ -16,6 +16,8 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 // }
 :root {
   --bs-emphasis-color:#281501;
+  --swiper-navigation-color: #fff;
+  --swiper-pagination-color: #fff;
 }
 
 $form-check-input-checked-bg-color:#281501;             
@@ -23,18 +25,24 @@ $form-check-input-border:1px solid #281501;
 $form-check-input-checked-border-color:#281501;
 $form-check-input-focus-box-shadow: 1px 1px 2px rgb(40, 21, 1,0.2);
 
+
 // 手風琴
-$accordion-bg: #f9ebc9;
-$accordion-button-bg: #d8d6d6;
+$accordion-bg: #f4ebd5;
+$accordion-button-bg: #f9ebc9;
 $accordion-button-active-bg: $brown;
-$accordion-border-color: $brown;
+$accordion-button-color: $brown;
+$accordion-button-active-color: #fff;
+$accordion-border-color: #fff;
 $accordion-icon-color: #fff;
+$accordion-border-color: $brown;
+
 .accordion-button:not(.collapsed){
-  color: #fff !important;
+  color:  $accordion-button-active-color !important;
   border: 1px solid $brown !important;
 }
+
 .accordion-button {
-  color: $brown !important;
+  color: $accordion-button-color !important;
   font-weight: 600;
   box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 $brown !important ;
 }
@@ -48,4 +56,9 @@ $accordion-icon-color: #fff;
   border-top-color: #281501; /* 箭頭區塊上 */
   border-bottom-color: #281501; /* 箭頭區塊下 */
   border-left-color: #281501;
+}
+
+// 輪播
+.swiper-button-prev, .swiper-button-next {
+  filter: drop-shadow(2px 2px 2px rgba(70, 70, 70, 0.5));
 }

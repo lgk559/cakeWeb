@@ -2,7 +2,7 @@
 
     <div id="login" class="loginBox">
         <div class="login">
-            <h1 class="t-center">黑皮購物廠商登入</h1>
+            <h1 class="t-center">廠商登入</h1>
             <div class="main t-center">
                 <div class="item_account">
                     <span class="input_title">帳號</span>

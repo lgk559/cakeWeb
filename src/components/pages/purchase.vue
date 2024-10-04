@@ -6,7 +6,7 @@
         <div class="page-inner">
             <div class="d-flex justify-content-center align-items-center text-center">
                 <ul class="orderList p-3">
-                    <li class="d-md-flex d-none bg-brown text-white">
+                    <li class="d-md-flex d-none bg-brown text-gold">
                         <!-- <div class="col-1 text-center border p-2">#</div> -->
                         <div class="col-2 text-center border p-2">購買時間</div>
                         <div class="col-2 text-center border p-2">Email</div>
@@ -14,8 +14,8 @@
                         <div class="col-2 text-center border p-2">應付金額</div>
                         <div class="col-2 text-center border p-2">是否付款</div>
                     </li>
-                    <template v-if="orders.length < 0">
-                        <li class="d-flex flex-wrap align-items-stretch bg-white mb-md-0 mb-3 text-left" v-for="(item,i) in orders">
+                    <template v-if="orders.length > 0">
+                        <li class="d-flex flex-wrap align-items-stretch mb-md-0 mb-3 text-left" v-for="(item,i) in orders">
                             <template v-if="item.user">
                                 <!-- <div class="col-md-1 col-12 border p-2" title="#">{{ item.num }}</div> -->
                                 <div class="col-md-2 col-12 d-flex border p-md-2 px-3 py-2" title="購買時間"><span class="align-items-center">{{ $mydata.getData(item.create_at) }}</span></div>
