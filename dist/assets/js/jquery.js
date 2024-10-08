@@ -1,4 +1,4 @@
-import{N as Fr,O as Wr}from"./index.js";var kn={exports:{}};/*!
+import{O as Fr,P as Wr}from"./index.js";var kn={exports:{}};/*!
  * jQuery JavaScript Library v3.7.1
  * https://jquery.com/
  *
