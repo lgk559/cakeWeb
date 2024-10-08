@@ -38,26 +38,28 @@
         <router-view></router-view>
     </div>
     <Footer></Footer>
+    <goTop />
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onBeforeMount } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount } from 'vue';
 import emitter from '*/EventBus';
-import { useRouter } from 'vue-router'
-const router = useRouter()
-import axios from 'axios'
-import Navbar from '*/components/pages/shared/Navbar_customer.vue'
-import Cart from '*/components/pages/shared/cart.vue'
+import { useRouter } from 'vue-router';
+const router = useRouter();
+import axios from 'axios';
+import Navbar from '*/components/pages/shared/Navbar_customer.vue';
+import Cart from '*/components/pages/shared/cart.vue';
 import Alert from '*/components/pages/shared/AlertMessage2.vue';
-import Footer from '*/components/pages/shared/footer.vue'
+import Footer from '*/components/pages/shared/footer.vue';
+import goTop from '../pages/shared/goTop.vue';
 
 function closeNav(){
-    emitter.emit('nav:close')
+    emitter.emit('nav:close');
 }
 
 onBeforeMount(() => {
     var myCookie = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
-    axios.defaults.headers.common.Authorization = myCookie
+    axios.defaults.headers.common.Authorization = myCookie;
 })
 
 </script>

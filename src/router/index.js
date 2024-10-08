@@ -70,7 +70,11 @@ const routes = [
           }
         ]
       },
-      
+      {
+        path: "/large_quantity",
+        name: "large_quantity",
+        component: () => import("*/components/pages/largeQuantity.vue"),
+      },
     ]
   },
   {
