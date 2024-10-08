@@ -51,12 +51,12 @@
                                         :to="'/page/'+item.id"
                                         style="background-size: cover; background-position: center"
                                         :style="{ 'background-image': `url(${item.imageUrl})` }">
-
                                     </router-link>
                                 </div>
                                 <div class="card-body">
-                                    <span class="badge border border-brown text-brown float-right mb-2 ">{{
-                                        item.category }}</span>
+                                    <span class="badge border border-brown text-brown float-right mb-2 ">
+                                        {{ $mydata.filterKeyWord(item.category) }}
+                                    </span>
                                     <p class="card-title omit-1 fs-6 fw-normal">
                                         <router-link :to="'/page/'+item.id" class="text-dark text-decoration-none">{{ item.title }}</router-link>
                                     </p>
@@ -64,9 +64,9 @@
                                     <div class="d-flex">
                                         <div class="col-6 text-decoration-line-through text-secondary">
                                             <span>原價：</span>
-                                            <span class="text-decoration-line-through">{{
-                                                $currency.currencyUSD(item.origin_price)
-                                            }}</span>
+                                            <span class="text-decoration-line-through">
+                                                {{ $currency.currencyUSD(item.origin_price) }}
+                                            </span>
                                         </div>
                                         <div class="col-6 text-danger">
                                             <span>特價：</span>
@@ -139,7 +139,7 @@ let isReverse = ref({
 
 function initProducts(data){
     filter_products_is_enabled(data)
-    category.value = filter_category_is_enabled()
+    filter_category_is_enabled();
     filter_product_in_category(); // 篩選符合類別的商品，例如所有類別為"蛋糕"的商品
     isLoading.value = false;
 }
@@ -151,11 +151,16 @@ function filter_products_is_enabled(data) {
 }
 
 function filter_category_is_enabled(){
-    var mySet = new Set();
+    let categoryArr = new Set();
+
     products_all.value.forEach((item) => {
-        mySet.add(item.category);
+        // 取類別第一個找到,符號前面的字串。,符號之後的是"start"推薦商品
+        let KeywordIndex = item.category.indexOf('star');
+        let category = KeywordIndex > 0 ? item.category.substring(0,KeywordIndex-1) : item.category;
+        categoryArr.add(category);
     })
-    return mySet;
+    category.value = categoryArr;
+
 }
 
 function filter_product_in_category(filterValue = '全部') {
@@ -166,7 +171,7 @@ function filter_product_in_category(filterValue = '全部') {
     }
     else { 
         products_all.value.forEach((item) => {
-            if(item.category == categoryItem.value){ nowarr.push(item)}
+            if(item.category == categoryItem.value){ nowarr.push(item)};
         });
         isReverse_type.value = '';
     }
@@ -179,12 +184,12 @@ function filter_product_in_Keywords() {
     isReverse_type.value = '';
     products_all.value.forEach((item) => {
         let is_has = item.title.search(Keywords.value);
-        if(is_has != -1){nowarr.push(item)}
+        if(is_has != -1){nowarr.push(item)};
     });
     product_in_filter.value = Object.assign([], nowarr);
     changePage(1); // 印出此頁的商品
     Keywords.value = "";
-    categoryItem.value = ""
+    categoryItem.value = "";
 }
 
 function changePage( chang = 1){
@@ -201,21 +206,19 @@ function changePage( chang = 1){
 }
 
 function changeReverse(type) {
-    isReverse_type.value = type
-    isReverse.value[type] = !isReverse.value[type]
-    if(type == ''){
-        // console.log('不用排序')
-    }
-    else{
+    isReverse_type.value = type;
+    isReverse.value[type] = !isReverse.value[type];
+    if(type !== ''){
         product_in_filter.value.sort(function (a, b) {
             var a = a[type], b = b[type];
             // 如果是空值，一律排序在最後
-            if (a === null) {return 1;}
-            if (b === null) {return -1;}
+            if (a === null) {return 1;};
+            if (b === null) {return -1;};
             return (a === b ? 0 : a > b  ? 1 : -1) * (isReverse.value.price ? (1) : -1);
         })
         changePage(1);
     }
+
 }
 function getProductsAll() {
     isLoading.value = true;
@@ -229,8 +232,8 @@ function getProductsAll() {
 }
 
 function addtoCart(id,qty=1){
-    status.value.productChangeToCart = id
-    emitter.emit('cart:change',[id,qty])
+    status.value.productChangeToCart = id;
+    emitter.emit('cart:change',[id,qty]);
 }
 
 

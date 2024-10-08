@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed-top navbar navbar-dark navbar-expand-lg  bg-brown text-gold">
+    <nav id="header" class="fixed-top navbar navbar-dark navbar-expand-lg  bg-brown text-gold">
         <div class="container-fluid justify-content-lg-center justify-content-md-between">
             <a class="navbar-brand text-gold" href="#">
                 <i class="fa-solid fa-cake-candles"></i> Cake
