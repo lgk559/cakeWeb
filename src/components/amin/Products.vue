@@ -208,7 +208,7 @@ function getProducts(page = 1) {
             pagination.value = response.data.pagination
             emitter.emit('pagination:init', pagination.value);
         } else {
-            emitter.emit('messagepush', '需登入', 'warning');
+            emitter.emit('messagepush', ['需登入', 'danger']);
             router.replace('/')
         }
     })
@@ -229,7 +229,7 @@ function updateProduct() {
         } else {
             thisModalObj_product.hide();
             getProducts()
-            emitter.emit('messagepush', '新增產品失敗', 'warning');
+            emitter.emit('messagepush', ['新增產品失敗', 'danger']);
         }
     })
 }
@@ -256,7 +256,7 @@ function delProduct() {
         } else {
             thisModalObj_del.hide();
             getProducts()
-            emitter.emit('messagepush', '刪除產品失敗', 'warning');
+            emitter.emit('messagepush', ['刪除產品失敗', 'danger']);
         }
     })
 }
@@ -280,7 +280,7 @@ function uploadFile($event) {
             } else {
                 status.value.fileUploading = false;
                 status.value.fileUploadError = true;
-                emitter.emit('message:push', response.data.message, 'warning');
+                emitter.emit('message:push', [response.data.message, 'danger']);
             }
         })
     }

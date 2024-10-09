@@ -96,7 +96,7 @@ function getOrders() {
             isLoading.value = false;
             orders.value = response.data.orders
         } else {
-            emitter.emit('messagepush', '需登入', 'warning');
+            emitter.emit('messagepush', ['需登入', 'danger']);
             router.replace('/')
         }
     })

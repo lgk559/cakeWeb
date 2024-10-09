@@ -191,7 +191,7 @@ const successCallback = (position) => {
 };
 
 const errorCallback = (error) => {
-    emitter.emit('message:push', '無法取得定位', 'warning');
+    emitter.emit('message:push', '無法取得定位', 'danger');
 };
 
 </script>

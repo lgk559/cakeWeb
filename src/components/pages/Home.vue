@@ -134,6 +134,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import emitter from '*/EventBus.js'
 import axios from 'axios';
 import $ from "jquery";
 window.$ = $;
@@ -196,6 +197,11 @@ function filter_products_is_start(data) {
 
 onMounted(() => {
     getProductsAll();
+    emitter.emit('message:push', ['感恩年終慶全館享9折', 'warning']);
+    
+    setTimeout(() => {
+        emitter.emit('message:push', ['山陀兒颱風來襲宅配延遲', 'danger']);
+    }, 5000);
 })
 
 </script>

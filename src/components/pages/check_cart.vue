@@ -224,7 +224,7 @@ function useCoupon() {
             isLoading.value = false;
         } else {
             isLoading.value = false;
-            emitter.emit('message:push', response.data.message, 'warning');
+            emitter.emit('message:push', [response.data.message, 'danger']);
         }
     })
 }

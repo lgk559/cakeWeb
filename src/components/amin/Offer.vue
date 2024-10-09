@@ -185,7 +185,7 @@ function updateCoupon(){
             status.value.dataUploading = false;
             thisModalObj_coupon.hide();
             getOffers()
-            emitter.emit('messagepush', '新增優惠券失敗', 'warning');
+            emitter.emit('messagepush', ['新增優惠券失敗', 'danger']);
         }
     })
 }
@@ -202,7 +202,7 @@ function delProduct() {
             status.value.dataUploading = false;
             thisModalObj_del.hide();
             getOffers()
-            emitter.emit('messagepush', '刪除優惠券失敗', 'warning');
+            emitter.emit('messagepush', ['刪除優惠券失敗', 'danger']);
         }
     })
 }

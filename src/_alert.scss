@@ -1,0 +1,23 @@
+.alert {
+    position: relative;
+    .progressBar {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 5px;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(255,255,255,0.8);
+    }
+}
+
+.progressBar_widthAm {
+    animation-name: progressBar_widthAm;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes progressBar_widthAm {
+	0%{width: 0%; }
+	100%{width: 100%; }
+}

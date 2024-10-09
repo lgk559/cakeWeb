@@ -161,8 +161,7 @@ function returnCartData(){
 onMounted(() => {
     thisModalObj_cart = new Modal(modalEle_cart.value);
     emitter.on('cart:change',(data)=>{
-        let id = data[0];
-        let qty = data[1]
+        const [id,qty] = data;
         changeCart(null,id,qty)
     })
     emitter.on('cart:delete',(id)=>{

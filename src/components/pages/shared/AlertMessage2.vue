@@ -6,14 +6,16 @@
             <button type="button" class="btn-close" @click="removeMessage(i)" aria-label="Close">
                 <span aria-hidden="true"></span>
             </button>
+            <div ref="progress_bar" class="progressBar progressBar_widthAm"></div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onBeforeMount, getCurrentInstance } from 'vue';
+import { ref, onMounted } from 'vue';
 import emitter from '*/EventBus.js';
 let messages = ref([])
+let progress_bar = ref(null)
 
 function updateMessage(message, status) {
     const timestamp = Math.floor(new Date() / 1000);
@@ -36,13 +38,13 @@ function removeMessageWithTiming(timestamp) {
         });
     }, 5000);
 }
-onBeforeMount(() => {
 
-    emitter.on('message:push', (message, status = 'warning') => {
+onMounted(() => {
+    emitter.on('message:push', function (data) {
+        const [message, status] = data
         updateMessage(message, status);
     });
 })
-
 
 </script>
 

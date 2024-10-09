@@ -309,7 +309,7 @@ function useCoupon() {
         } else {
             isLoading.value = false;
             couponCode.value = "";
-            emitter.emit('message:push', response.data.message, 'warning');
+            emitter.emit('message:push', [response.data.message, 'danger']);
         }
     })
 }
