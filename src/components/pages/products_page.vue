@@ -1,6 +1,6 @@
 <template>
   <loading v-model:active="isLoading" />
-  <div class="container position-relative">
+  <div class="container page-inner position-relative">
     <div v-if="productdData" class="row justify-content-center pt-lg-5 pt-3">
       <div class="col-md-5 col-md-5 col-8">
         <img :src="productdData.imageUrl" class="img-fluid">
@@ -14,8 +14,11 @@
           </ol>
          
         </nav>
-        <h3 class="d-flex align-items-center">{{ productdData.title }} <span
-            class="h5 m-0 ms-3 badge rounded-pill text-gold bg-brown py-2 px-3">{{ productdData.category }}</span></h3>
+        <h3 class="d-flex align-items-center">{{ productdData.title }} 
+          <span class="h5 m-0 ms-3 badge rounded-pill text-gold bg-brown py-2 px-3">
+            {{ $mydata.filterKeyWord(productdData.category) }}
+          </span>
+        </h3>
         <p>{{ productdData.content }}</p>
         <p>{{ productdData.description }}</p>
         <hr>
@@ -57,6 +60,16 @@
       <h1>404</h1>
       <p>頁面不存在，5秒後自動跳轉回首頁</p>
       
+    </div>
+
+    <div id="recommend" class="row mt-5">
+      <div class="col-12 d-flex justify-content-between px-4 my-3">
+          <span><i class="fa-solid fa-thumbs-up pe-1"></i>相關推薦</span>
+          <router-link :to='"/shopping"' class="text-brown">查看更多</router-link>
+      </div>
+      <div class="mainBox col-12 d-flex flex-wrap flex-md-row flex-column">
+
+      </div>
     </div>
   </div>
 </template>
